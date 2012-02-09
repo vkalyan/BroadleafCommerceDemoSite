@@ -282,27 +282,7 @@
 		</sec:authentication-provider>
 		<sec:authentication-provider ref="blRememberMeAuthenticationProvider" />
 	</sec:authentication-manager>
-	
-	<bean id="userDetailsManager"
-		class="org.springframework.security.provisioning.JdbcUserDetailsManager">
-		<property name="dataSource" ref="webDS" />
-		<property name="authenticationManager" ref="blAuthenticationManager" />
-		<property name="enableGroups" value="false" />
-		<property name="enableAuthorities" value="true" />
-		<property name="usersByUsernameQuery"
-					value="SELECT login AS username, password, active_status_flag as enabled FROM BLC_ADMIN_USER
-				WHERE login = ?" />
-		<property name="authoritiesByUsernameQuery"
-			value="SELECT 
-            DISTINCT au.login AS username, ap.name AS authority
-            FROM BLC_ADMIN_USER au
-            LEFT OUTER JOIN BLC_ADMIN_USER_ROLE_XREF aurx ON au.admin_user_id = aurx.admin_user_id
-            LEFT OUTER JOIN BLC_ADMIN_ROLE ar ON aurx.admin_role_id = ar.admin_role_id
-            LEFT OUTER JOIN BLC_ADMIN_ROLE_PERMISSION_XREF arpx ON ar.admin_role_id = arpx.admin_role_id
-            LEFT OUTER JOIN BLC_ADMIN_PERMISSION ap ON arpx.admin_permission_id = ap.admin_permission_id
-            LEFT OUTER JOIN BLC_ADMIN_USER_PERMISSION_XREF aupx ON au.admin_user_id = aupx.admin_user_id
-            LEFT OUTER JOIN BLC_ADMIN_PERMISSION ap2 ON aupx.admin_permission_id = ap2.admin_permission_id
-            WHERE au.login = ?" />
-	</bean>
+
+    <alias name="blAdminUserDetailsService" alias="userDetailsManager"/>
 
 </beans>
