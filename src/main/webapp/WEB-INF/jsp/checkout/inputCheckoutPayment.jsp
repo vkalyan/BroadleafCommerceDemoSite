@@ -1,5 +1,12 @@
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
+<script type="text/javascript" src="/src/main/webapp/js/checkout-autofill.js"></script>
+
+<div class="fillButton">
+    <button type="button" onclick="autoFillContactInfo()">Autofill the Checkout Form</button>
+    <p>(This button is provided for demo purposes only.)</p>
+</div>
 <div class="span-11 column">
+
 	<div class="orderBorder">
 		<div class="orderTitle"><b>Payment Information</b></div>
 		<span class="small"><b>* Required Fields</b></span> <br/>
