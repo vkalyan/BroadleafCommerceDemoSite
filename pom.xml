@@ -57,6 +57,7 @@
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <blc.version>1.6.0-M2-SNAPSHOT</blc.version>
+        <blc.third.party.integration.version>1.6.0-SNAPSHOT</blc.third.party.integration.version>
     </properties>
     <build>
         <pluginManagement>
@@ -268,7 +269,7 @@
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-usps</artifactId>
-                <version>${blc.version}</version>
+                <version>${blc.third.party.integration.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
