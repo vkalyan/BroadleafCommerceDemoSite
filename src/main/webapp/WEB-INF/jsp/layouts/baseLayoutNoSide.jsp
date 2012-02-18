@@ -16,13 +16,16 @@
 			<tiles:insertAttribute name="mainContent" />
 			<tiles:insertAttribute name="footer" />
 		</div>
+        <%--
+        Uncomment and add you Google Analytics tag below.
 		<c:choose>
 			<c:when test="${orderComplete}">
-				<blc:googleAnalytics webPropertyId="UA-8476611-1" order="${order}" />
+				<blc:googleAnalytics webPropertyId="UA-XXXXXXX-X" order="${order}" />
 			</c:when>
 			<c:otherwise>
-				<blc:googleAnalytics webPropertyId="UA-8476611-1" />
+				<blc:googleAnalytics webPropertyId="UA-XXXXXXX-X" />
 			</c:otherwise>
 		</c:choose>
+         --%>
 	</body>
 </html>
