@@ -4,7 +4,7 @@
 	xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
 	
 	<!-- import the ant / maven integration tasks -->
-	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks-2.0.10.jar" />
+	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks-2.1.3.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
 	
 	<property file="build.properties"/>
@@ -167,6 +167,50 @@
             <transaction>SHUTDOWN</transaction>  
         </sql>   
         <echo message="SQL Executed on data base..." />  
+    </target>
+
+    <target name="build-sql">
+        <mkdir dir="target/sql"/>
+        <artifact:pom id="myPom" file="pom.xml" />
+        <artifact:dependencies filesetId="pomDeps" pomRefId="myPom" useScope="compile" />
+        <fileset id="libDir" dir="target/broadleafdemo/WEB-INF/lib"/>
+        <path id="build.runtime.classpath">
+            <!--There are some additional libraries needed at compile time that are not included
+                in WEB-INF/lib - find those libraries via a difference algorithm-->
+            <restrict>
+                <difference>
+                    <fileset refid="pomDeps" />
+                    <intersect>
+                        <fileset refid="pomDeps" />
+                        <fileset refid="libDir" />
+                    </intersect>
+                </difference>
+                <rsel:not>
+                    <rsel:name name="**/*.pom" />
+                </rsel:not>
+            </restrict>
+            <!--Add the lib directory to get all the dependencies required for the demo app-->
+            <fileset refid="libDir"/>
+            <!--Add the classes directory from the demo app to get its custom entities-->
+            <pathelement location="target/broadleafdemo/WEB-INF/classes"/>
+        </path>
+        <property name="demo.app.context" location="src/main/webapp/WEB-INF/applicationContext-demo.xml"/>
+        <taskdef name="hibernatetool" classname="org.broadleafcommerce.common.util.sql.HibernateToolTask" classpathref="build.runtime.classpath" />
+        <hibernatetool destDir="target/sql" combinePersistenceUnits="false" refineFileNames="true">
+            <!--add in additional persistence configuration related to the admin -->
+            <classPathApplicationContext path="bl-open-admin-contentClient-applicationContext.xml"/>
+            <!--add in additional persistence configuration related to the cms -->
+            <classPathApplicationContext path="bl-cms-contentClient-applicationContext.xml"/>
+            <!--add an application context from the WEB-INF directory that contains some custom persistence config for this app -->
+            <fileSystemApplicationContext path="${demo.app.context}"/>
+            <!--select the dialects and persistence units to export-->
+            <jpaconfiguration persistenceUnit="blPU" dialect="org.hibernate.dialect.HSQLDialect" />
+            <jpaconfiguration persistenceUnit="blSecurePU" dialect="org.hibernate.dialect.HSQLDialect" />
+            <jpaconfiguration persistenceUnit="blCMSStorage" dialect="org.hibernate.dialect.HSQLDialect" />
+            <!--other required elements-->
+            <classpath refid="build.runtime.classpath" />
+            <hbm2ddl export="false"/>
+        </hibernatetool>
     </target>
 
 </project>
