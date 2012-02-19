@@ -170,6 +170,7 @@
     </target>
 
     <target name="build-sql">
+        <!--You will need to run a mvn install on your project before attempting to execute this task-->
         <mkdir dir="target/sql"/>
         <artifact:pom id="myPom" file="pom.xml" />
         <artifact:dependencies filesetId="pomDeps" pomRefId="myPom" useScope="compile" />
