@@ -123,6 +123,10 @@
 						<td colspan="6" style="text-align:right"><a href="<c:url value="/store" />">Continue Shopping</a>  <button type="submit" name="checkout" id="checkout" value="Proceed to Checkout">Proceed to Checkout &raquo;</button>
 						</td>
 					</tr>
+                    <tr>
+                        <td colspan="6" style="text-align:right"><input type="image" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="right" style="margin-right:7px" name="paypalCheckout" id="paypalCheckout">
+                        </td>
+                    </tr>
 			</form:form>
 				</tbody>
 				</table>

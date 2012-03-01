@@ -9,7 +9,19 @@
 
 	<div class="orderBorder">
 		<div class="orderTitle"><b>Payment Information</b></div>
-		<span class="small"><b>* Required Fields</b></span> <br/>
+
+        <span class="small"><b>* Required Fields</b></span> <br/>
+        <div>
+            <br/>
+            <b>* Payment Type</b>
+        </div>
+        <form>
+            <input type="radio" name="paymentType" value="creditCard" checked="true"/>  Credit Card<br />
+            <input type="radio" name="paymentType" value="paypal"/>
+            <img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" style="margin-right:7px;">
+            <span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span></td><br />
+
+        </form>
 		<div style="margin-top:10px; font-size:13px;">
 			<form:checkbox path="isSameAddress" id="sameShippingInfo"  /> 
 			<span style="padding-left:4px"> Yes, my <b>Billing</b> and <b>Shipping</b> addresses are the same </span>
@@ -130,4 +142,9 @@
 			<form:input maxlength="4" size="4" path="creditCardCvvCode" />
 		</div>
 	</div>
+    <div class="span-10 payPalPayment orderBorder">
+        <div class="orderTitle" > <b> Paypal Information </b></div>
+        <img src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" align="left" style="margin-right:7px;">
+        <span style="font-size:11px; font-family: Arial, Verdana;">The safer, easier way to pay.</span>
+    </div>
 </div>
