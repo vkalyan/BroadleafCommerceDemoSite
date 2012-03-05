@@ -275,6 +275,13 @@
             </dependency>
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
+                <artifactId>broadleaf-paypal</artifactId>
+                <version>${blc.third.party.integration.version}</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-profile</artifactId>
                 <classifier>sources</classifier>
                 <version>${blc.version}</version>
@@ -325,6 +332,14 @@
                 <version>${blc.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.broadleafcommerce</groupId>
+                <artifactId>broadleaf-third-party-integration-config</artifactId>
+                <version>${blc.third.party.integration.version}</version>
+                <scope>compile</scope>
+                <type>jar</type>
+                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>commons-pool</groupId>
@@ -556,6 +571,10 @@
         </dependency>
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-paypal</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
             <artifactId>broadleaf-profile</artifactId>
             <classifier>sources</classifier>
             <exclusions>
@@ -627,6 +646,10 @@
                     <artifactId>cobertura</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-third-party-integration-config</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>

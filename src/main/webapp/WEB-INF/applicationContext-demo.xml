@@ -77,5 +77,85 @@
     <bean id="blProductDao" class="org.broadleafcommerce.core.catalog.dao.ProductDaoImpl">
         <property name="currentDateResolution" value="1000"/>
 	</bean>
+    
+    <!-- PayPal Configuration -->
+
+    <bean id="blConfiguration" class="org.broadleafcommerce.common.config.RuntimeEnvironmentPropertiesConfigurer">
+        <property name="propertyLocations">
+            <set>
+                <value>classpath:config/bc/</value>
+                <value>classpath:config/bc/paypal/</value>
+                <value>classpath:config/bc/override/</value>
+            </set>
+        </property>
+        <property name="environments">
+            <set>
+                <value>production</value>
+                <value>staging</value>
+                <value>integration</value>
+                <value>development</value>
+            </set>
+        </property>
+        <property name="defaultEnvironment" value="development"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+    </bean>
+
+    <bean id="blPayPalPaymentService" class="org.broadleafcommerce.core.payment.service.PaymentServiceImpl">
+        <property name="paymentModule" ref="blPayPalModule"/>
+    </bean>
+
+    <bean id="blAuthorizeAndDebitWorkflow" class="org.broadleafcommerce.core.workflow.SequenceProcessor">
+        <property name="processContextFactory">
+            <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentProcessContextFactory">
+                <property name="paymentActionType" value="AUTHORIZEANDDEBIT"/>
+            </bean>
+        </property>
+        <property name="activities">
+            <list>
+                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
+                    <property name="paymentService" ref="blPayPalPaymentService"/>
+                    <property name="userName" value="web"/>
+                </bean>
+                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
+                    <property name="paymentService" ref="blCreditCardService"/>
+                    <property name="userName" value="web"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultErrorHandler" ref="blDefaultErrorHandler"/>
+    </bean>
+
+    <bean id="blPayPalModule" class="org.broadleafcommerce.payment.service.module.PayPalPaymentModule">
+        <property name="payPalPaymentService" ref="blPayPalVendorOrientedPaymentService"/>
+    </bean>
+    
+    <bean id="blPayPalVendorOrientedPaymentService" class="org.broadleafcommerce.vendor.paypal.service.payment.PayPalPaymentServiceImpl">
+        <property name="libVersion" value="${paypal.version}"/>
+        <property name="password" value="${paypal.password}"/>
+        <property name="user" value="${paypal.user}"/>
+        <property name="signature" value="${paypal.signature}"/>
+        <property name="serverUrl" value="${paypal.api.url}"/>
+        <property name="failureReportingThreshold" value="1"/>
+        <property name="userRedirectUrl" value="${paypal.user.redirect.url}"/>
+        <property name="returnUrl" value="http://localhost:8080/broadleafdemo/checkout/paypalDetails.htm"/>
+        <property name="cancelUrl" value="http://localhost:8080/broadleafdemo/basket/viewCart.htm"/>
+        <property name="additionalConfig">
+            <map>
+                <entry key="HDRIMG" value="http://localhost:8080/broadleafdemo/images/havalettaLogo.png"/>
+                <entry key="HDRBORDERCOLOR" value="333333"/>
+                <entry key="HDRBACKCOLOR" value="669933"/>
+                <entry key="PAYFLOWCOLOR" value="B58253"/>
+            </map>
+        </property>
+    </bean>
+
+    <aop:config>
+        <aop:aspect id="payPalQos" ref="blServiceMonitor">
+            <aop:pointcut id="payPalProcessMethod" expression="execution(* org.broadleafcommerce.vendor.paypal.service.payment.PayPalPaymentService.process(org.broadleafcommerce.vendor.paypal.service.payment.message.PayPalPaymentRequest))"/>
+            <aop:around method="checkServiceAOP" pointcut-ref="payPalProcessMethod"/>
+        </aop:aspect>
+    </aop:config>
+    
+    <!-- End of PayPal Configuration -->
 
 </beans>
