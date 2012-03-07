@@ -130,22 +130,30 @@
     </bean>
     
     <bean id="blPayPalVendorOrientedPaymentService" class="org.broadleafcommerce.vendor.paypal.service.payment.PayPalPaymentServiceImpl">
-        <property name="libVersion" value="${paypal.version}"/>
-        <property name="password" value="${paypal.password}"/>
-        <property name="user" value="${paypal.user}"/>
-        <property name="signature" value="${paypal.signature}"/>
         <property name="serverUrl" value="${paypal.api.url}"/>
         <property name="failureReportingThreshold" value="1"/>
-        <property name="userRedirectUrl" value="${paypal.user.redirect.url}"/>
-        <property name="returnUrl" value="http://localhost:8080/broadleafdemo/checkout/paypalDetails.htm"/>
-        <property name="cancelUrl" value="http://localhost:8080/broadleafdemo/basket/viewCart.htm"/>
-        <property name="additionalConfig">
-            <map>
-                <entry key="HDRIMG" value="http://localhost:8080/broadleafdemo/images/havalettaLogo.png"/>
-                <entry key="HDRBORDERCOLOR" value="333333"/>
-                <entry key="HDRBACKCOLOR" value="669933"/>
-                <entry key="PAYFLOWCOLOR" value="B58253"/>
-            </map>
+        <property name="requestGenerator">
+            <bean class="org.broadleafcommerce.vendor.paypal.service.payment.PayPalRequestGeneratorImpl">
+                <property name="libVersion" value="${paypal.version}"/>
+                <property name="password" value="${paypal.password}"/>
+                <property name="user" value="${paypal.user}"/>
+                <property name="signature" value="${paypal.signature}"/>
+                <property name="returnUrl" value="http://localhost:8080/broadleafdemo/checkout/paypalDetails.htm"/>
+                <property name="cancelUrl" value="http://localhost:8080/broadleafdemo/basket/viewCart.htm"/>
+                <property name="additionalConfig">
+                    <map>
+                        <entry key="HDRIMG" value="http://localhost:8080/broadleafdemo/images/havalettaLogo.png"/>
+                        <entry key="HDRBORDERCOLOR" value="333333"/>
+                        <entry key="HDRBACKCOLOR" value="669933"/>
+                        <entry key="PAYFLOWCOLOR" value="B58253"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="responseGenerator">
+            <bean class="org.broadleafcommerce.vendor.paypal.service.payment.PayPalResponseGeneratorImpl">
+                <property name="userRedirectUrl" value="${paypal.user.redirect.url}"/>
+            </bean>
         </property>
     </bean>
 
