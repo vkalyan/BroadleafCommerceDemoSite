@@ -17,6 +17,7 @@
 	<context:component-scan base-package="org.broadleafcommerce.profile.web"/>
 	<context:component-scan base-package="org.broadleafcommerce.core.web"/>
     <context:component-scan base-package="org.broadleafcommerce.openadmin.web"/>
+    <context:component-scan base-package="com.other.web"/>
 
 	
 	<aop:config/>
@@ -73,7 +74,7 @@
         <property name="removeItemViewRedirect" value="true"/>
 	</bean>
 	
-	<bean id="checkoutController" class="org.broadleafcommerce.core.web.controller.checkout.CheckoutController">
+	<bean id="myCheckoutController" class="com.other.web.controller.CheckoutController">
 		<property name="checkoutView" value="checkout/checkout"/>
 	</bean>
 
@@ -105,7 +106,7 @@
 				<prop key="/basket/**">blCartController</prop>
 				<prop key="/search">compassSearchController</prop>
 				<prop key="/search/*">compassSearchController</prop>
-				<prop key="/checkout/*">checkoutController</prop>
+				<prop key="/checkout/*">myCheckoutController</prop>
 				<prop key="/storeLocator/*">storeController</prop>
 				<prop key="/account/*">myAccountController</prop>
 				<prop key="/rating/*">blRatingController</prop>
