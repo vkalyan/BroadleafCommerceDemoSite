@@ -68,6 +68,7 @@ import org.broadleafcommerce.profile.core.service.CustomerPhoneService;
 import org.broadleafcommerce.profile.core.service.CustomerService;
 import org.broadleafcommerce.profile.core.service.StateService;
 import org.broadleafcommerce.profile.web.core.CustomerState;
+import org.broadleafcommerce.vendor.paypal.service.payment.MessageConstants;
 import org.broadleafcommerce.vendor.paypal.service.payment.message.details.PayPalDetailsRequest;
 import org.broadleafcommerce.vendor.paypal.service.payment.message.details.PayPalDetailsResponse;
 import org.broadleafcommerce.vendor.paypal.service.payment.type.PayPalMethodType;
@@ -260,7 +261,7 @@ public class CheckoutController {
             TotalledPaymentInfoImpl paymentInfo = new TotalledPaymentInfoImpl();
             paymentInfo.setOrder(order);
             paymentInfo.setType(PaymentInfoType.PAYPAL);
-            paymentInfo.getAdditionalFields().put("PAYPALMETHODTYPE", "CHECKOUT");
+            paymentInfo.getAdditionalFields().put(MessageConstants.PAYPALMETHODTYPE, PayPalMethodType.CHECKOUT.getType());
             paymentInfo.setReferenceNumber(String.valueOf(order.getId()));
             paymentInfo.setAmount(order.getTotal());
             paymentInfo.setSubTotal(order.getSubTotal());
@@ -290,10 +291,10 @@ public class CheckoutController {
             if(responseItem.getTransactionSuccess()) {
                 order.setOrderNumber(new SimpleDateFormat("yyyyMMddHHmmssS").format(SystemTime.asDate()));
                 model.addAttribute("order", retrieveCartOrder(request, model));
-                return "redirect:" + responseItem.getAdditionalFields().get("REDIRECTURL");
+                return "redirect:" + responseItem.getAdditionalFields().get(MessageConstants.REDIRECTURL);
             } else {
                 //TODO this needs some work
-                //return resp.substring(resp.indexOf("ERRORCODE"));
+                //return resp.substring(resp.indexOf("MODULEERRORCODE"));
                 return "";
             }
         } catch (Exception e) {
@@ -302,7 +303,7 @@ public class CheckoutController {
         }
     }
 
-    @RequestMapping(value="/paypalDetails.htm", method = {RequestMethod.GET})
+    /*@RequestMapping(value="/paypalDetails.htm", method = {RequestMethod.GET})
     public String paypalDetails(ModelMap model,
                                 @RequestParam String token,
                                 @RequestParam("PayerID") String payerID,
@@ -324,72 +325,51 @@ public class CheckoutController {
             System.out.println(e);
             return "";
         }
-    }
+    }*/
 
-//    @RequestMapping(value="/paypalProcess.htm", method = {RequestMethod.POST})
-//    public String paypalProcess(ModelMap model,
-//                                @RequestParam String token,
-//                                @RequestParam("PayerID") String payerID,
-//                                CheckoutForm checkoutForm,
-//                                HttpServletRequest request) {
-//
-//        try {
-//            List <NameValuePair> nvps = new ArrayList<NameValuePair>();
-//            Order order = retrieveCartOrder(request, model);
-//            nvps.add(new NameValuePair("PAYERID", payerID));
-//            nvps.add(new NameValuePair("TOKEN", token));
-//
-//            String resp = setHttpClient(order, "process", nvps);
-//
-//            if(resp.contains("ACK=Success") || resp.contains("ACK=SuccessWithWarning")) {
-//
-//                Map<PaymentInfo, Referenced> payments = new HashMap<PaymentInfo, Referenced>();
-//                paypalPayment(checkoutForm, order, payments);
-//
-//                try {
-//                    checkoutService.performCheckout(order, payments);
-//                } catch (CheckoutException e) {
-//                    LOG.error("Cannot perform checkout", e);
-//                }
-//
-//                //Fill out a few customer values for anonymous customers
-//                Customer customer = order.getCustomer();
-//                if (StringUtils.isEmpty(customer.getFirstName())) {
-//                    customer.setFirstName(checkoutForm.getBillingAddress().getFirstName());
-//                }
-//                if (StringUtils.isEmpty(customer.getLastName())) {
-//                    customer.setLastName(checkoutForm.getBillingAddress().getLastName());
-//                }
-//                if (StringUtils.isEmpty(customer.getEmailAddress())) {
-//                    customer.setEmailAddress(order.getEmailAddress());
-//                }
-//                customerService.saveCustomer(customer, false);
-//                return receiptView != null ? "redirect:" + receiptView : "redirect:/orders/viewOrderConfirmation.htm?orderNumber=" + order.getOrderNumber();
-//
-//            } else  {
-//                return resp.substring(resp.indexOf("ERRORCODE"));
-//            }
-//        } catch (Exception e) {
-//            System.out.println(e);
-//            return "";
-//        }
-//    }
-//
-//    private void paypalPayment(CheckoutForm checkoutForm, Order order, Map<PaymentInfo, Referenced> payments) {
-//        PaymentInfo paymentInfo = paymentInfoService.create();
-//        paymentInfo.setAddress(checkoutForm.getShippingAddress());
-//        paymentInfo.setOrder(order);
-//        paymentInfo.setType(PaymentInfoType.PAYPAL);
-//
-//        paymentInfo.setAmount(order.getTotal());
-//
-//        List<PaymentInfo> paymentInfos = new ArrayList<PaymentInfo>();
-//        paymentInfos.add(paymentInfo);
-//        order.setPaymentInfos(paymentInfos);
-//
-//        order.setStatus(OrderStatus.SUBMITTED);
-//        order.setSubmitDate(Calendar.getInstance().getTime());
-//    }
+    @RequestMapping(value="/paypalProcess.htm", method = {RequestMethod.GET})
+    public String paypalProcess(ModelMap model,
+                                @RequestParam String token,
+                                @RequestParam("PayerID") String payerID,
+                                CheckoutForm checkoutForm,
+                                HttpServletRequest request) {
+        Order order = retrieveCartOrder(request, model);
+        Map<PaymentInfo, Referenced> payments = new HashMap<PaymentInfo, Referenced>();
+        for (PaymentInfo paymentInfo : order.getPaymentInfos()) {
+            if (paymentInfo.getType() == PaymentInfoType.PAYPAL) {
+                //There should only be one payment info of type paypal in the order
+                paymentInfo.getAdditionalFields().put(MessageConstants.PAYERID, payerID);
+                paymentInfo.getAdditionalFields().put(MessageConstants.TOKEN, token);
+                paymentInfo.getAdditionalFields().put(MessageConstants.PAYPALMETHODTYPE, PayPalMethodType.PROCESS.getType());
+                payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
+                break;
+            }
+        }
+        
+        order.setStatus(OrderStatus.SUBMITTED);
+        order.setSubmitDate(Calendar.getInstance().getTime());
+
+        try {
+            checkoutService.performCheckout(order, payments);
+        } catch (CheckoutException e) {
+            LOG.error("Cannot perform checkout", e);
+        }
+
+        //Fill out a few customer values for anonymous customers
+        Customer customer = order.getCustomer();
+        if (StringUtils.isEmpty(customer.getFirstName())) {
+            customer.setFirstName(checkoutForm.getBillingAddress().getFirstName());
+        }
+        if (StringUtils.isEmpty(customer.getLastName())) {
+            customer.setLastName(checkoutForm.getBillingAddress().getLastName());
+        }
+        if (StringUtils.isEmpty(customer.getEmailAddress())) {
+            customer.setEmailAddress(order.getEmailAddress());
+        }
+        customerService.saveCustomer(customer, false);
+
+        return receiptView != null ? "redirect:" + receiptView : "redirect:/orders/viewOrderConfirmation.htm?orderNumber=" + order.getOrderNumber();
+    }
 
     protected Order retrieveCartOrder(HttpServletRequest request, ModelMap model) {
         Customer currentCustomer = customerState.getCustomer(request);

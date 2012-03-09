@@ -138,7 +138,7 @@
                 <property name="password" value="${paypal.password}"/>
                 <property name="user" value="${paypal.user}"/>
                 <property name="signature" value="${paypal.signature}"/>
-                <property name="returnUrl" value="http://localhost:8080/broadleafdemo/checkout/paypalDetails.htm"/>
+                <property name="returnUrl" value="http://localhost:8080/broadleafdemo/checkout/paypalProcess.htm"/>
                 <property name="cancelUrl" value="http://localhost:8080/broadleafdemo/basket/viewCart.htm"/>
                 <property name="additionalConfig">
                     <map>
