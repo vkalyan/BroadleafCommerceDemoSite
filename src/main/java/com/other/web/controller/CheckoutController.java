@@ -30,7 +30,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.collections.comparators.ReverseComparator;
-import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,9 +47,9 @@ import org.broadleafcommerce.core.payment.domain.AmountItem;
 import org.broadleafcommerce.core.payment.domain.AmountItemImpl;
 import org.broadleafcommerce.core.payment.domain.CreditCardPaymentInfo;
 import org.broadleafcommerce.core.payment.domain.PaymentInfo;
+import org.broadleafcommerce.core.payment.domain.PaymentInfoImpl;
 import org.broadleafcommerce.core.payment.domain.PaymentResponseItem;
 import org.broadleafcommerce.core.payment.domain.Referenced;
-import org.broadleafcommerce.core.payment.domain.TotalledPaymentInfoImpl;
 import org.broadleafcommerce.core.payment.service.CompositePaymentService;
 import org.broadleafcommerce.core.payment.service.PaymentInfoService;
 import org.broadleafcommerce.core.payment.service.SecurePaymentInfoService;
@@ -118,6 +117,9 @@ public class CheckoutController {
 
     @Resource(name="captureCompositePaymentService")
     protected CompositePaymentService captureCompositePaymentService;
+    
+    @Resource(name="reverseAuthorizeCompositePaymentService")
+    protected CompositePaymentService reverseAuthorizeCompositePaymentService;
 
     @Resource(name="refundCompositePaymentService")
     protected CompositePaymentService refundCompositePaymentService;
@@ -266,14 +268,14 @@ public class CheckoutController {
             final Order order = retrieveCartOrder(request, model);
             Map<PaymentInfo, Referenced> payments = new HashMap<PaymentInfo, Referenced>();
 
-            TotalledPaymentInfoImpl paymentInfo = new TotalledPaymentInfoImpl();
+            PaymentInfoImpl paymentInfo = new PaymentInfoImpl();
             paymentInfo.setOrder(order);
             paymentInfo.setType(PaymentInfoType.PAYPAL);
             paymentInfo.setReferenceNumber(String.valueOf(order.getId()));
             paymentInfo.setAmount(order.getTotal());
-            paymentInfo.setSubTotal(order.getSubTotal());
-            paymentInfo.setTotalShipping(order.getTotalShipping());
-            paymentInfo.setTotalTax(order.getTotalTax());
+            paymentInfo.getAdditionalFields().put(MessageConstants.SUBTOTAL, order.getSubTotal().toString());
+            paymentInfo.getAdditionalFields().put(MessageConstants.TOTALSHIPPING, order.getTotalShipping().toString());
+            paymentInfo.getAdditionalFields().put(MessageConstants.TOTALTAX, order.getTotalTax().toString());
             for (OrderItem orderItem : order.getOrderItems()) {
                 AmountItem amountItem = new AmountItemImpl();
                 if (DiscreteOrderItem.class.isAssignableFrom(orderItem.getClass())) {
@@ -356,29 +358,30 @@ public class CheckoutController {
 
         CheckoutResponse checkoutResponse;
         try {
+            /*
+                Grab some details about the transaction - useful if you want to
+                retrieve address information for the user
+             */
+            //PayPalDetailsRequest detailsRequest = new PayPalDetailsRequest();
+            //detailsRequest.setToken(token);
+            //detailsRequest.setMethodType(PayPalMethodType.DETAILS);
+            //PayPalDetailsResponse detailsResponse = payPalPaymentModule.getExpressCheckoutDetails(detailsRequest);
+
             checkoutResponse = checkoutService.performCheckout(order, payments);
 
-            for (PaymentInfo paymentInfo : order.getPaymentInfos()) {
-                if (paymentInfo.getType() == PaymentInfoType.PAYPAL) {
+            /*
+                Refund the amount of the sale
+             */
+            //for (PaymentInfo paymentInfo : order.getPaymentInfos()) {
+                //if (paymentInfo.getType() == PaymentInfoType.PAYPAL) {
                     //There should only be one payment info of type paypal in the order
-                    paymentInfo.getAdditionalFields().put(MessageConstants.TRANSACTIONID, checkoutResponse.getPaymentResponse().getResponseItems().get(paymentInfo).getTransactionId());
-                    payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
-                    break;
-                }
-            }
-
-            CompositePaymentResponse compositePaymentResponse = captureCompositePaymentService.executePayment(order, payments);
-
-            for (PaymentInfo paymentInfo : order.getPaymentInfos()) {
-                if (paymentInfo.getType() == PaymentInfoType.PAYPAL) {
-                    //There should only be one payment info of type paypal in the order
-                    paymentInfo.getAdditionalFields().put(MessageConstants.TRANSACTIONID, compositePaymentResponse.getPaymentResponse().getResponseItems().get(paymentInfo).getTransactionId());
-                    paymentInfo.getAdditionalFields().put(MessageConstants.REFUNDTYPE, PayPalRefundType.FULL.getType());
-                    payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
-                    break;
-                }
-            }
-            CompositePaymentResponse compositePaymentResponse2 = refundCompositePaymentService.executePayment(order, payments);
+                    ////paymentInfo.getAdditionalFields().put(MessageConstants.TRANSACTIONID, checkoutResponse.getPaymentResponse().getResponseItems().get(paymentInfo).getTransactionId());
+                    //paymentInfo.getAdditionalFields().put(MessageConstants.REFUNDTYPE, PayPalRefundType.FULL.getType());
+                    //payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
+                    //break;
+                //}
+            //}
+            //CompositePaymentResponse compositePaymentResponse2 = refundCompositePaymentService.executePayment(order, payments);
         } catch (Exception e) {
             LOG.error("Cannot perform checkout", e);
         }
