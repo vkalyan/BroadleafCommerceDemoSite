@@ -37,6 +37,7 @@ import org.apache.commons.logging.LogFactory;
 import org.broadleafcommerce.common.time.SystemTime;
 import org.broadleafcommerce.core.checkout.service.CheckoutService;
 import org.broadleafcommerce.core.checkout.service.exception.CheckoutException;
+import org.broadleafcommerce.core.checkout.service.workflow.CheckoutResponse;
 import org.broadleafcommerce.core.order.domain.DiscreteOrderItem;
 import org.broadleafcommerce.core.order.domain.FulfillmentGroup;
 import org.broadleafcommerce.core.order.domain.Order;
@@ -72,6 +73,7 @@ import org.broadleafcommerce.vendor.paypal.service.payment.MessageConstants;
 import org.broadleafcommerce.vendor.paypal.service.payment.message.details.PayPalDetailsRequest;
 import org.broadleafcommerce.vendor.paypal.service.payment.message.details.PayPalDetailsResponse;
 import org.broadleafcommerce.vendor.paypal.service.payment.type.PayPalMethodType;
+import org.broadleafcommerce.vendor.paypal.service.payment.type.PayPalRefundType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -113,6 +115,12 @@ public class CheckoutController {
     //it is the entry point for engaging the payment workflow
     @Resource(name="blCompositePaymentService")
     protected CompositePaymentService compositePaymentService;
+
+    @Resource(name="captureCompositePaymentService")
+    protected CompositePaymentService captureCompositePaymentService;
+
+    @Resource(name="refundCompositePaymentService")
+    protected CompositePaymentService refundCompositePaymentService;
 
     @Resource(name="blPayPalModule")
     protected PayPalPaymentModule payPalPaymentModule;
@@ -261,13 +269,11 @@ public class CheckoutController {
             TotalledPaymentInfoImpl paymentInfo = new TotalledPaymentInfoImpl();
             paymentInfo.setOrder(order);
             paymentInfo.setType(PaymentInfoType.PAYPAL);
-            paymentInfo.getAdditionalFields().put(MessageConstants.PAYPALMETHODTYPE, PayPalMethodType.CHECKOUT.getType());
             paymentInfo.setReferenceNumber(String.valueOf(order.getId()));
             paymentInfo.setAmount(order.getTotal());
             paymentInfo.setSubTotal(order.getSubTotal());
             paymentInfo.setTotalShipping(order.getTotalShipping());
             paymentInfo.setTotalTax(order.getTotalTax());
-            paymentInfo.setShippingDiscount(order.getFulfillmentGroupAdjustmentsValue());
             for (OrderItem orderItem : order.getOrderItems()) {
                 AmountItem amountItem = new AmountItemImpl();
                 if (DiscreteOrderItem.class.isAssignableFrom(orderItem.getClass())) {
@@ -340,7 +346,6 @@ public class CheckoutController {
                 //There should only be one payment info of type paypal in the order
                 paymentInfo.getAdditionalFields().put(MessageConstants.PAYERID, payerID);
                 paymentInfo.getAdditionalFields().put(MessageConstants.TOKEN, token);
-                paymentInfo.getAdditionalFields().put(MessageConstants.PAYPALMETHODTYPE, PayPalMethodType.PROCESS.getType());
                 payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
                 break;
             }
@@ -349,9 +354,32 @@ public class CheckoutController {
         order.setStatus(OrderStatus.SUBMITTED);
         order.setSubmitDate(Calendar.getInstance().getTime());
 
+        CheckoutResponse checkoutResponse;
         try {
-            checkoutService.performCheckout(order, payments);
-        } catch (CheckoutException e) {
+            checkoutResponse = checkoutService.performCheckout(order, payments);
+
+            for (PaymentInfo paymentInfo : order.getPaymentInfos()) {
+                if (paymentInfo.getType() == PaymentInfoType.PAYPAL) {
+                    //There should only be one payment info of type paypal in the order
+                    paymentInfo.getAdditionalFields().put(MessageConstants.TRANSACTIONID, checkoutResponse.getPaymentResponse().getResponseItems().get(paymentInfo).getTransactionId());
+                    payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
+                    break;
+                }
+            }
+
+            CompositePaymentResponse compositePaymentResponse = captureCompositePaymentService.executePayment(order, payments);
+
+            for (PaymentInfo paymentInfo : order.getPaymentInfos()) {
+                if (paymentInfo.getType() == PaymentInfoType.PAYPAL) {
+                    //There should only be one payment info of type paypal in the order
+                    paymentInfo.getAdditionalFields().put(MessageConstants.TRANSACTIONID, compositePaymentResponse.getPaymentResponse().getResponseItems().get(paymentInfo).getTransactionId());
+                    paymentInfo.getAdditionalFields().put(MessageConstants.REFUNDTYPE, PayPalRefundType.FULL.getType());
+                    payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
+                    break;
+                }
+            }
+            CompositePaymentResponse compositePaymentResponse2 = refundCompositePaymentService.executePayment(order, payments);
+        } catch (Exception e) {
             LOG.error("Cannot perform checkout", e);
         }
 

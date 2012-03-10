@@ -107,7 +107,7 @@
     <bean id="blAuthorizeAndDebitWorkflow" class="org.broadleafcommerce.core.workflow.SequenceProcessor">
         <property name="processContextFactory">
             <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentProcessContextFactory">
-                <property name="paymentActionType" value="AUTHORIZEANDDEBIT"/>
+                <property name="paymentActionType" value="AUTHORIZE"/>
             </bean>
         </property>
         <property name="activities">
@@ -119,6 +119,70 @@
                 <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
                     <property name="paymentService" ref="blCreditCardService"/>
                     <property name="userName" value="web"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultErrorHandler" ref="blDefaultErrorHandler"/>
+    </bean>
+
+    <bean id="blCaptureWorkflow" class="org.broadleafcommerce.core.workflow.SequenceProcessor">
+        <property name="processContextFactory">
+            <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentProcessContextFactory">
+                <property name="paymentActionType" value="DEBIT"/>
+            </bean>
+        </property>
+        <property name="activities">
+            <list>
+                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
+                    <property name="paymentService" ref="blPayPalPaymentService"/>
+                    <property name="userName" value="web"/>
+                </bean>
+                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
+                    <property name="paymentService" ref="blCreditCardService"/>
+                    <property name="userName" value="web"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultErrorHandler" ref="blDefaultErrorHandler"/>
+    </bean>
+    
+    <bean id="captureCompositePaymentService" class="org.broadleafcommerce.core.payment.service.CompositePaymentServiceImpl">
+        <property name="paymentWorkflow" ref="blCaptureWorkflow"/>
+    </bean>
+
+    <bean id="blRefundWorkflow" class="org.broadleafcommerce.core.workflow.SequenceProcessor">
+        <property name="processContextFactory">
+            <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentProcessContextFactory">
+                <property name="paymentActionType" value="CREDIT"/>
+            </bean>
+        </property>
+        <property name="activities">
+            <list>
+                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
+                    <property name="paymentService" ref="blPayPalPaymentService"/>
+                    <property name="userName" value="web"/>
+                </bean>
+                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
+                    <property name="paymentService" ref="blCreditCardService"/>
+                    <property name="userName" value="web"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultErrorHandler" ref="blDefaultErrorHandler"/>
+    </bean>
+
+    <bean id="refundCompositePaymentService" class="org.broadleafcommerce.core.payment.service.CompositePaymentServiceImpl">
+        <property name="paymentWorkflow" ref="blRefundWorkflow"/>
+    </bean>
+
+    <bean id="blPaymentWorkflow" class="org.broadleafcommerce.core.workflow.SequenceProcessor">
+        <property name="processContextFactory">
+            <bean class="org.broadleafcommerce.core.payment.service.workflow.SimplePaymentProcessContextFactory"/>
+        </property>
+        <property name="activities">
+            <list>
+                <bean class="org.broadleafcommerce.core.payment.service.workflow.CompositeActivity">
+                    <property name="workflow" ref="blAuthorizeAndDebitWorkflow"/>
                 </bean>
             </list>
         </property>
@@ -163,7 +227,7 @@
             <aop:around method="checkServiceAOP" pointcut-ref="payPalProcessMethod"/>
         </aop:aspect>
     </aop:config>
-    
+
     <!-- End of PayPal Configuration -->
 
 </beans>
