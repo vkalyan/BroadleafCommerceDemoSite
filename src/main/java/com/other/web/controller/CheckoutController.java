@@ -53,6 +53,7 @@ import org.broadleafcommerce.core.payment.domain.Referenced;
 import org.broadleafcommerce.core.payment.service.CompositePaymentService;
 import org.broadleafcommerce.core.payment.service.PaymentInfoService;
 import org.broadleafcommerce.core.payment.service.SecurePaymentInfoService;
+import org.broadleafcommerce.core.payment.service.exception.PaymentException;
 import org.broadleafcommerce.core.payment.service.type.PaymentInfoType;
 import org.broadleafcommerce.core.payment.service.workflow.CompositePaymentResponse;
 import org.broadleafcommerce.core.web.checkout.model.CheckoutForm;
@@ -115,17 +116,17 @@ public class CheckoutController {
     @Resource(name="blCompositePaymentService")
     protected CompositePaymentService compositePaymentService;
 
-    @Resource(name="captureCompositePaymentService")
-    protected CompositePaymentService captureCompositePaymentService;
+    //@Resource(name="captureCompositePaymentService")
+    //protected CompositePaymentService captureCompositePaymentService;
     
-    @Resource(name="reverseAuthorizeCompositePaymentService")
-    protected CompositePaymentService reverseAuthorizeCompositePaymentService;
+    //@Resource(name="reverseAuthorizeCompositePaymentService")
+    //protected CompositePaymentService reverseAuthorizeCompositePaymentService;
 
-    @Resource(name="refundCompositePaymentService")
-    protected CompositePaymentService refundCompositePaymentService;
+    //@Resource(name="refundCompositePaymentService")
+    //protected CompositePaymentService refundCompositePaymentService;
 
-    @Resource(name="blPayPalModule")
-    protected PayPalPaymentModule payPalPaymentModule;
+    //@Resource(name="blPayPalModule")
+    //protected PayPalPaymentModule payPalPaymentModule;
 
     protected String checkoutView;
     protected String receiptView;
@@ -264,51 +265,47 @@ public class CheckoutController {
                            ModelMap model,
                            HttpServletRequest request,
                            HttpServletResponse response) throws IOException {
-        try {
-            final Order order = retrieveCartOrder(request, model);
-            Map<PaymentInfo, Referenced> payments = new HashMap<PaymentInfo, Referenced>();
+        final Order order = retrieveCartOrder(request, model);
+        Map<PaymentInfo, Referenced> payments = new HashMap<PaymentInfo, Referenced>();
 
-            PaymentInfoImpl paymentInfo = new PaymentInfoImpl();
-            paymentInfo.setOrder(order);
-            paymentInfo.setType(PaymentInfoType.PAYPAL);
-            paymentInfo.setReferenceNumber(String.valueOf(order.getId()));
-            paymentInfo.setAmount(order.getTotal());
-            paymentInfo.getAdditionalFields().put(MessageConstants.SUBTOTAL, order.getSubTotal().toString());
-            paymentInfo.getAdditionalFields().put(MessageConstants.TOTALSHIPPING, order.getTotalShipping().toString());
-            paymentInfo.getAdditionalFields().put(MessageConstants.TOTALTAX, order.getTotalTax().toString());
-            for (OrderItem orderItem : order.getOrderItems()) {
-                AmountItem amountItem = new AmountItemImpl();
-                if (DiscreteOrderItem.class.isAssignableFrom(orderItem.getClass())) {
-                    amountItem.setDescription(((DiscreteOrderItem)orderItem).getSku().getDescription());
-                    amountItem.setSystemId(String.valueOf(((DiscreteOrderItem) orderItem).getSku().getId()));
-                }
-                amountItem.setShortDescription(orderItem.getName());
-                amountItem.setPaymentInfo(paymentInfo);
-                amountItem.setQuantity((long) orderItem.getQuantity());
-                amountItem.setUnitPrice(orderItem.getPrice().getAmount());
-                paymentInfo.getAmountItems().add(amountItem);
+        PaymentInfoImpl paymentInfo = new PaymentInfoImpl();
+        paymentInfo.setOrder(order);
+        paymentInfo.setType(PaymentInfoType.PAYPAL);
+        paymentInfo.setReferenceNumber(String.valueOf(order.getId()));
+        paymentInfo.setAmount(order.getTotal());
+        paymentInfo.getAdditionalFields().put(MessageConstants.SUBTOTAL, order.getSubTotal().toString());
+        paymentInfo.getAdditionalFields().put(MessageConstants.TOTALSHIPPING, order.getTotalShipping().toString());
+        paymentInfo.getAdditionalFields().put(MessageConstants.TOTALTAX, order.getTotalTax().toString());
+        for (OrderItem orderItem : order.getOrderItems()) {
+            AmountItem amountItem = new AmountItemImpl();
+            if (DiscreteOrderItem.class.isAssignableFrom(orderItem.getClass())) {
+                amountItem.setDescription(((DiscreteOrderItem)orderItem).getSku().getDescription());
+                amountItem.setSystemId(String.valueOf(((DiscreteOrderItem) orderItem).getSku().getId()));
             }
-            payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
-            List<PaymentInfo> paymentInfos = new ArrayList<PaymentInfo>();
-            paymentInfos.add(paymentInfo);
-            order.setPaymentInfos(paymentInfos);
-            
+            amountItem.setShortDescription(orderItem.getName());
+            amountItem.setPaymentInfo(paymentInfo);
+            amountItem.setQuantity((long) orderItem.getQuantity());
+            amountItem.setUnitPrice(orderItem.getPrice().getAmount());
+            paymentInfo.getAmountItems().add(amountItem);
+        }
+        payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
+        List<PaymentInfo> paymentInfos = new ArrayList<PaymentInfo>();
+        paymentInfos.add(paymentInfo);
+        order.setPaymentInfos(paymentInfos);
+
+        model.addAttribute("order", retrieveCartOrder(request, model));
+        try {
             CompositePaymentResponse compositePaymentResponse = compositePaymentService.executePayment(order, payments);
             PaymentResponseItem responseItem = compositePaymentResponse.getPaymentResponse().getResponseItems().get(paymentInfo);
-
-            if(responseItem.getTransactionSuccess()) {
-                order.setOrderNumber(new SimpleDateFormat("yyyyMMddHHmmssS").format(SystemTime.asDate()));
-                model.addAttribute("order", retrieveCartOrder(request, model));
+            if (responseItem.getTransactionSuccess()) {
                 return "redirect:" + responseItem.getAdditionalFields().get(MessageConstants.REDIRECTURL);
-            } else {
-                //TODO this needs some work
-                //return resp.substring(resp.indexOf("MODULEERRORCODE"));
-                return "";
             }
-        } catch (Exception e) {
-            System.out.println(e);
-            return "";
+        } catch (PaymentException e) {
+            LOG.error("Cannot perform checkout", e);
         }
+
+        //TODO make sure payment errors are populated and displayed appropriately for the user
+        return "";
     }
 
     /*@RequestMapping(value="/paypalDetails.htm", method = {RequestMethod.GET})
@@ -342,6 +339,7 @@ public class CheckoutController {
                                 CheckoutForm checkoutForm,
                                 HttpServletRequest request) {
         Order order = retrieveCartOrder(request, model);
+        PaymentInfo payPalPaymentInfo = null;
         Map<PaymentInfo, Referenced> payments = new HashMap<PaymentInfo, Referenced>();
         for (PaymentInfo paymentInfo : order.getPaymentInfos()) {
             if (paymentInfo.getType() == PaymentInfoType.PAYPAL) {
@@ -349,6 +347,7 @@ public class CheckoutController {
                 paymentInfo.getAdditionalFields().put(MessageConstants.PAYERID, payerID);
                 paymentInfo.getAdditionalFields().put(MessageConstants.TOKEN, token);
                 payments.put(paymentInfo, paymentInfo.createEmptyReferenced());
+                payPalPaymentInfo = paymentInfo;
                 break;
             }
         }
@@ -382,24 +381,30 @@ public class CheckoutController {
                 //}
             //}
             //CompositePaymentResponse compositePaymentResponse2 = refundCompositePaymentService.executePayment(order, payments);
+            
+            PaymentResponseItem responseItem = checkoutResponse.getPaymentResponse().getResponseItems().get(payPalPaymentInfo);
+            if (responseItem.getTransactionSuccess()) {
+                //Fill out a few customer values for anonymous customers
+                Customer customer = order.getCustomer();
+                if (StringUtils.isEmpty(customer.getFirstName())) {
+                    customer.setFirstName(checkoutForm.getBillingAddress().getFirstName());
+                }
+                if (StringUtils.isEmpty(customer.getLastName())) {
+                    customer.setLastName(checkoutForm.getBillingAddress().getLastName());
+                }
+                if (StringUtils.isEmpty(customer.getEmailAddress())) {
+                    customer.setEmailAddress(order.getEmailAddress());
+                }
+                customerService.saveCustomer(customer, false);
+
+                return receiptView != null ? "redirect:" + receiptView : "redirect:/orders/viewOrderConfirmation.htm?orderNumber=" + order.getOrderNumber();
+            }
         } catch (Exception e) {
             LOG.error("Cannot perform checkout", e);
         }
 
-        //Fill out a few customer values for anonymous customers
-        Customer customer = order.getCustomer();
-        if (StringUtils.isEmpty(customer.getFirstName())) {
-            customer.setFirstName(checkoutForm.getBillingAddress().getFirstName());
-        }
-        if (StringUtils.isEmpty(customer.getLastName())) {
-            customer.setLastName(checkoutForm.getBillingAddress().getLastName());
-        }
-        if (StringUtils.isEmpty(customer.getEmailAddress())) {
-            customer.setEmailAddress(order.getEmailAddress());
-        }
-        customerService.saveCustomer(customer, false);
-
-        return receiptView != null ? "redirect:" + receiptView : "redirect:/orders/viewOrderConfirmation.htm?orderNumber=" + order.getOrderNumber();
+        //TODO make sure payment errors are populated and displayed appropriately for the user
+        return "";
     }
 
     protected Order retrieveCartOrder(HttpServletRequest request, ModelMap model) {
