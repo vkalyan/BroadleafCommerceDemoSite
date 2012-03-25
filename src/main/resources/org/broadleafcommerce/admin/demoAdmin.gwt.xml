@@ -8,8 +8,8 @@
     <inherits name="com.google.gwt.core.CompilerParameters"/>
     <inherits name="com.google.gwt.i18n.I18N"/>
 
-
     <extend-property name="locale" values="en_US"/>
+    <set-property-fallback name="locale" value="en_US"/>
 
 	<entry-point class="org.broadleafcommerce.openadmin.client.BLCLaunch" />
 	<!--set-property name="user.agent" value="gecko1_8" /-->
