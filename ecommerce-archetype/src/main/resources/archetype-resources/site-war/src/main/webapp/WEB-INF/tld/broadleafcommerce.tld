@@ -24,14 +24,14 @@
     </tag>
     
     <tag>
+        <!--
+        	Outputs the Javascript necessary for tracking page views (and optionally, submitted orders).
+        	While not specified in the tag declaration, this tag uses the googleAnalytics.webPropertyId set in your property files
+        	to determine the Google Analytics Account to use
+        -->
         <name>googleAnalytics</name>
         <tag-class>org.broadleafcommerce.core.web.catalog.taglib.GoogleAnalyticsTag</tag-class>
         <body-content>empty</body-content>
-       	<attribute>
-			<name>webPropertyId</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
        	<attribute>
 			<name>order</name>
 			<required>false</required>
