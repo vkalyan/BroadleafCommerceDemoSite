@@ -7,17 +7,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
     	http://www.springframework.org/schema/beans
-    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
     	http://www.springframework.org/schema/context
-    	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    	http://www.springframework.org/schema/context/spring-context-3.1.xsd
     	http://www.springframework.org/schema/security
-    	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+    	http://www.springframework.org/schema/security/spring-security-3.1.xsd
+    	http://www.springframework.org/schema/util
+    	http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
     <context:component-scan base-package="org.broadleafcommerce.profile.web.core.security"/>
     <context:component-scan base-package="org.broadleafcommerce.core.web.order.security"/>
 
 	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
-		<sec:filter-chain-map path-type="ant">
+		<sec:filter-chain-map request-matcher="ant">
 			<!--<sec:filter-chain pattern="/wishlist/**" filters="httpSessionContextIntegrationFilter, 
 				subaccountLogoutFilter, subaccountAuthenticationProcessingFilter, securityContextHolderAwareRequestFilter, 
 				subaccountExceptionTranslationFilter, sessionFixationProtectionFilter, subaccountFilterSecurityInterceptor" 
@@ -148,7 +150,7 @@
 	</bean>
 
 	<bean id="blAuthenticationProcessingFilter"
-		class="org.springframework.security.web.authentication.AuthenticationProcessingFilter">
+		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
 		<property name="authenticationManager" ref="blAuthenticationManager" />
 		<property name="authenticationFailureHandler" ref="broadleafAuthenticationFailureHandler" />
 		<property name="authenticationSuccessHandler" ref="springAuthenticationSuccessHandler" />
@@ -160,7 +162,7 @@
 		class="org.springframework.security.web.access.ExceptionTranslationFilter">
 		<property name="authenticationEntryPoint">
 			<bean
-				class="org.springframework.security.web.authentication.AuthenticationProcessingFilterEntryPoint">
+				class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
 				<property name="loginFormUrl" value="/registerCustomer/registerCustomer.htm" />
 			</bean>
 		</property>
@@ -188,7 +190,7 @@
 	<!-- admin section -->
 	
 	<bean id="blAdminAuthenticationProcessingFilter"
-		class="org.springframework.security.web.authentication.AuthenticationProcessingFilter">
+		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
 		<property name="authenticationManager" ref="blAuthenticationManager" />
 		<property name="authenticationFailureHandler" ref="broadleafAdminAuthenticationFailureHandler" />
 		<property name="authenticationSuccessHandler" ref="springAdminAuthenticationSuccessHandler" />
@@ -241,7 +243,7 @@
 		class="org.springframework.security.web.access.ExceptionTranslationFilter">
 		<property name="authenticationEntryPoint">
 			<bean
-				class="org.springframework.security.web.authentication.AuthenticationProcessingFilterEntryPoint">
+				class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
 				<property name="loginFormUrl" value="/blcadmin/login" />
 			</bean>
 		</property>
@@ -286,5 +288,14 @@
     <bean id="blAdminUserDetailsService" class="org.broadleafcommerce.openadmin.server.security.service.AdminUserDetailsServiceImpl"/>
 
     <alias name="blAdminUserDetailsService" alias="userDetailsManager"/>
+	
+	<!-- TODO: figure out why exactly this is needed. Without this here, causes SPEL parse exception because it cannot find a right-hand operand -->
+	<bean id="broadleafApplicationFilterChain" class="org.springframework.security.web.FilterChainProxy">
+        <property name="filterChainMap">
+            <util:map map-class="java.util.LinkedHashMap">
+
+            </util:map>
+        </property>
+    </bean>
 
 </beans>
