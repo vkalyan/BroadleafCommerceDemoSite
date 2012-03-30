@@ -37,4 +37,5 @@
 <script type="text/javascript" src="<c:out value="${pageContext.request.contextPath}"/>/js/ui.stars.js"></script>
 <script type="text/javascript" src="<c:out value="${pageContext.request.contextPath}"/>/js/catalog.js"></script>
 <script type="text/javascript" src="<c:out value="${pageContext.request.contextPath}"/>/js/checkout-autofill.js"></script>
+<script type="text/javascript" src="<c:out value="${pageContext.request.contextPath}"/>/js/braintreeCreditCard-autofill.js"></script>
 <c:set scope="request" var="contextPath" value="${pageContext.request.contextPath}" />

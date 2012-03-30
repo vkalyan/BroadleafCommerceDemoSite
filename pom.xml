@@ -295,6 +295,13 @@
                 <scope>compile</scope>
             </dependency>
             <dependency>
+                <groupId>org.broadleafcommerce</groupId>
+                <artifactId>broadleaf-braintree</artifactId>
+                <version>${blc.third.party.integration.version}</version>
+                <type>jar</type>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
                 <groupId>commons-pool</groupId>
                 <artifactId>commons-pool</artifactId>
                 <version>1.5.6</version>
@@ -593,6 +600,10 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.broadleafcommerce</groupId>
+            <artifactId>broadleaf-braintree</artifactId>
         </dependency>
     </dependencies>
 </project>

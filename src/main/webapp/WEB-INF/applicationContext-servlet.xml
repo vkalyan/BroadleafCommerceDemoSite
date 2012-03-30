@@ -113,6 +113,8 @@
 				<prop key="/preview/**">previewTemplateController</prop>
                 <prop key="/catalogMultiplier/**">blCatalogMultiplyController</prop>
                 <prop key="/blcadmin/*">blAdminLoginController</prop>
+                <prop key="/braintreeForm/*">braintreeFormController</prop>
+                <prop key="/braintreeCheckout/*">braintreeCheckoutController</prop>
 			</props>
 		</property>
 	</bean>
@@ -122,5 +124,17 @@
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 
     <mvc:default-servlet-handler/>
+
+    <!--Braintree Configuration-->
+
+    <bean id="braintreeCheckoutController" class="org.broadleafcommerce.vendor.braintree.web.BraintreeCheckoutController">
+        <property name="braintreeCheckoutView" value="braintreeCheckoutView"/>
+    </bean>
+
+    <bean id="braintreeFormController" class="org.broadleafcommerce.vendor.braintree.web.BraintreeFormController">
+        <property name="gatewayRequest" ref="braintreeGateway"/>
+        <property name="braintreeFormView" value="braintreeForm/braintreeCreditCard"/>
+        <property name="braintreeContactInfoView" value="braintreeForm/braintreeCheckout"/>
+    </bean>
 
 </beans>

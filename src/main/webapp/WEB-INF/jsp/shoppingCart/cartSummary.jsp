@@ -137,6 +137,10 @@
 						<td colspan="6" style="text-align:right"><a href="<c:url value="/store" />">Continue Shopping</a>  <button type="submit" name="checkout" id="checkout" value="Proceed to Checkout">Proceed to Checkout &raquo;</button>
 						</td>
 					</tr>
+                    <tr class="totals">
+                        <td colspan="6" style="text-align:right"><a href="<c:url value="/store" />"></a>  <button type="submit" name="braintreeContactInfo" id="braintreeContactInfo" value="Proceed to Checkout">Braintree Checkout Form &raquo;</button>
+                        </td>
+                    </tr>
 			</form:form>
 				</tbody>
 				</table>
