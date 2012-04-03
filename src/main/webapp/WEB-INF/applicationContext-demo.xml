@@ -139,33 +139,6 @@
         </property>
     </bean>
 
-    <!-- A workflow for authorizing a payment with a payment service to engage it-->
-    <bean id="blAuthorizeWorkflow" class="org.broadleafcommerce.core.workflow.SequenceProcessor">
-        <property name="processContextFactory">
-            <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentProcessContextFactory">
-                <property name="paymentActionType" value="AUTHORIZE"/>
-            </bean>
-        </property>
-        <property name="activities">
-            <list>
-                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
-                    <property name="paymentService" ref="blBraintreePaymentService"/>
-                    <property name="userName" value="web"/>
-                </bean>
-                <bean class="org.broadleafcommerce.core.payment.service.workflow.PaymentActivity">
-                    <property name="paymentService" ref="blCreditCardService"/>
-                    <property name="userName" value="web"/>
-                </bean>
-            </list>
-        </property>
-        <property name="defaultErrorHandler" ref="blDefaultErrorHandler"/>
-    </bean>
-
-    <bean id="authorizeCompositePaymentService" class="org.broadleafcommerce.core.payment.service.CompositePaymentServiceImpl">
-        <property name="paymentWorkflow" ref="blAuthorizeWorkflow"/>
-    </bean>
-
-
     <!-- A workflow for reversing an authorize with a payment service to engage it-->
     <bean id="blReverseAuthorizeWorkflow" class="org.broadleafcommerce.core.workflow.SequenceProcessor">
         <property name="processContextFactory">
