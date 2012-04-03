@@ -119,6 +119,20 @@
 						<td style="text-align:right">Total:</td>
 						<td style="text-align:right"><span class="price">$${currentCartOrder.total }</span></td>
 					</tr>
+                    <c:if test="${(!empty currentCartOrder.addedOfferCodes)}">
+                        <td colspan="5" style="text-align:right;">Promos applied:</td>
+                        <c:forEach var="code" items="${currentCartOrder.addedOfferCodes}" varStatus="status">
+                             <tr>
+                                 <td colspan="5" style="text-align:right;">${code.offerCode}</td>
+                                 <c:url var="removePromoUrl" value="/basket/viewCart.htm">
+                                      <c:param name="orderOfferCode" value="${code.offerCode}"/>
+                                      <c:param name="removePromoFromCart" value="true"/>
+                                 </c:url>
+                                 <td colspan="4" style="text-align:right"><a class="cartLinkBtn" href="${removePromoUrl}">Remove</a>
+                                 </td>
+                             </tr>
+                        </c:forEach>
+                    </c:if>
 					<tr class="totals">
 						<td colspan="6" style="text-align:right"><a href="<c:url value="/store" />">Continue Shopping</a>  <button type="submit" name="checkout" id="checkout" value="Proceed to Checkout">Proceed to Checkout &raquo;</button>
 						</td>
