@@ -92,7 +92,7 @@
 					<tr class="totals">
 						<td colspan="4" style="text-align:right;">Promo Code:
 							<form:input maxlength="10" path="promoCode" autocomplete="off"/>
-							<input type="submit" name="updatePromo" value="Add To Order" class="cartButton" />
+							<input type="submit" name="addPromo" value="Add To Order" class="cartButton" />
 						</td>
 						<td style="text-align:right">Tax:</td>
 						<td style="text-align:right"><span class="price">$${currentCartOrder.totalTax}</span></td>
