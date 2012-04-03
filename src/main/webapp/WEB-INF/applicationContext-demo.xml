@@ -98,16 +98,6 @@
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
     </bean>
 
-    <bean id="blBraintreeModule" class="org.broadleafcommerce.vendor.braintree.module.BraintreePaymentModule">
-        <property name="gatewayRequest" ref="braintreeGateway"/>
-    </bean>
-
-    <bean id="braintreeGateway" class="org.broadleafcommerce.vendor.braintree.service.payment.BraintreeGatewayRequestImpl">
-        <property name="publicKey" value="${braintree.publicKey}"/>
-        <property name="privateKey" value="${braintree.privateKey}"/>
-        <property name="merchantId" value="${braintree.merchantId}"/>
-    </bean>
-
     <bean id="blBraintreePaymentService" class="org.broadleafcommerce.core.payment.service.PaymentServiceImpl">
         <property name="paymentModule" ref="blBraintreeModule"/>
     </bean>
@@ -133,8 +123,20 @@
         <property name="defaultErrorHandler" ref="blDefaultErrorHandler"/>
     </bean>
 
-    <bean id="authorizeAndDebitCompositePaymentService" class="org.broadleafcommerce.core.payment.service.CompositePaymentServiceImpl">
-        <property name="paymentWorkflow" ref="blAuthorizeAndDebitWorkflow"/>
+    <bean id="blBraintreeModule" class="org.broadleafcommerce.vendor.braintree.module.BraintreePaymentModule">
+        <property name="braintreePaymentService" ref="blBraintreeVendorOrientedPaymentService"/>
+    </bean>
+
+    <bean id="blBraintreeVendorOrientedPaymentService" class="org.broadleafcommerce.vendor.braintree.service.payment.BraintreePaymentServiceImpl">
+        <property name="gatewayRequest">
+            <bean class="org.broadleafcommerce.vendor.braintree.service.payment.BraintreeGatewayRequestImpl">
+                <property name="publicKey" value="${braintree.publicKey}"/>
+                <property name="privateKey" value="${braintree.privateKey}"/>
+                <property name="merchantId" value="${braintree.merchantId}"/>
+                <property name="redirectUrl" value="${braintree.redirectUrl}"/>
+                <property name="transactionType" value="${braintree.transactionType}"/>
+            </bean>
+        </property>
     </bean>
 
     <!-- A workflow for authorizing a payment with a payment service to engage it-->

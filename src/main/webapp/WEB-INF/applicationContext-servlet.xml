@@ -132,9 +132,9 @@
     </bean>
 
     <bean id="braintreeFormController" class="org.broadleafcommerce.vendor.braintree.web.BraintreeFormController">
-        <property name="gatewayRequest" ref="braintreeGateway"/>
         <property name="braintreeFormView" value="braintreeForm/braintreeCreditCard"/>
         <property name="braintreeContactInfoView" value="braintreeForm/braintreeCheckout"/>
+        <property name="braintreePaymentService" ref="blBraintreeVendorOrientedPaymentService"/>
     </bean>
 
 </beans>
