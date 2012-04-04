@@ -132,6 +132,18 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
+    <servlet>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-class>
+            com.sun.jersey.spi.spring.container.servlet.SpringServlet
+        </servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Jersey Web Application</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>demo</servlet-name>
         <url-pattern>/</url-pattern>
