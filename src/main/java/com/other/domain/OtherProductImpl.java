@@ -16,12 +16,15 @@
 
 package com.other.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import java.util.Date;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.broadleafcommerce.common.presentation.AdminPresentation;
 import org.broadleafcommerce.common.presentation.AdminPresentationClass;
@@ -48,6 +51,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         @AdminPresentationOverride(name="dimension.container", value=@AdminPresentation(friendlyName="Product Container Shape", order=15, group="Dimension", fieldType= SupportedFieldType.BROADLEAF_ENUMERATION, broadleafEnumeration="com.other.domain.OtherContainerShapeType"))
     }
 )
+@XmlRootElement
 public class OtherProductImpl extends ProductSkuImpl implements OtherProduct {
 
 	private static final long serialVersionUID = 1L;
@@ -60,6 +64,7 @@ public class OtherProductImpl extends ProductSkuImpl implements OtherProduct {
 	@AdminPresentation(friendlyName="Release Date", order=4, group="My Special Descriptions", prominent=false)
 	protected Date releaseDate;
 	
+	@XmlElement
 	public Long getCompanyNumber() {
 		return companyNumber;
 	}
@@ -68,6 +73,7 @@ public class OtherProductImpl extends ProductSkuImpl implements OtherProduct {
 		this.companyNumber = companyNumber;
 	}
 
+	@XmlElement
 	public Date getReleaseDate() {
 		return releaseDate;
 	}
