@@ -8,6 +8,8 @@
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<non-jta-data-source>jdbc/web</non-jta-data-source>
 		<class>com.other.domain.OtherProductImpl</class>
+		<class>com.other.domain.OtherCategoryImpl</class>
+		<class>com.other.domain.OtherSkuImpl</class>
 		<exclude-unlisted-classes/>
 		<properties>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
@@ -19,7 +21,8 @@
                                                                    /sql/load_table_sequences.sql,
                                                                    /sql/load_catalog_data.sql,
                                                                    /sql/load_content_structure.sql,
-                                                                   /sql/load_content_data.sql"/>
+                                                                   /sql/load_content_data.sql,
+                                                                   /sql/load_overrides.sql"/>
         </properties>
 	</persistence-unit>
 	
