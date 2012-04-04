@@ -31,6 +31,7 @@ import org.broadleafcommerce.core.catalog.service.CatalogService;
 import org.broadleafcommerce.core.offer.domain.Offer;
 import org.broadleafcommerce.core.offer.domain.OfferCode;
 import org.broadleafcommerce.core.offer.service.OfferService;
+import org.broadleafcommerce.core.offer.service.exception.OfferMaxUseExceededException;
 import org.broadleafcommerce.core.order.domain.DiscreteOrderItem;
 import org.broadleafcommerce.core.order.domain.FulfillmentGroup;
 import org.broadleafcommerce.core.order.domain.FulfillmentGroupImpl;
@@ -312,7 +313,11 @@ public class DemoCartController {
             OfferCode code = offerService.lookupOfferCodeByCode(cartSummary.getPromoCode());
 
             if (code != null ) {
-                currentCartOrder = cartService.addOfferCode(currentCartOrder, code, true);
+                try {
+                    currentCartOrder = cartService.addOfferCode(currentCartOrder, code, true);
+                } catch (OfferMaxUseExceededException e) {
+                    model.addAttribute("error", "Promotion Max Uses Exceeded");
+                }
                 currentCartOrder = updateFulfillmentGroups(cartSummary, currentCartOrder);
             }
             else {
