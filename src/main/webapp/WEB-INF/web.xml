@@ -23,6 +23,7 @@
             /WEB-INF/applicationContext-email.xml
             /WEB-INF/applicationContext-search.xml
             /WEB-INF/applicationContext-security.xml
+            /WEB-INF/applicationContext-demo-api-wrapper.xml
         </param-value>
 	</context-param>
 
