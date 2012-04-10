@@ -12,11 +12,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
- * Created by IntelliJ IDEA.
- * User: developer
- * Date: 4/10/12
- * Time: 7:07 AM
- * To change this template use File | Settings | File Templates.
+ * This is a JAXB wrapper around Product.
+ *
+ * User: Elbert Bautista
+ * Date: 4/11/12
  */
 @XmlRootElement(name = "otherProduct")
 @XmlAccessorType(value = XmlAccessType.FIELD)
@@ -37,7 +36,7 @@ public class OtherProductWrapper extends ProductWrapper {
         companyNumber = otherProduct.getCompanyNumber();
         releaseDate= otherProduct.getReleaseDate();
 
-        //Suppressing a default property
+        //Suppressing a default property on product
         super.manufacturer = null;
 
     }
