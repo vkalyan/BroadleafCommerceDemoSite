@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.broadleafcommerce.core.catalog.domain.Category;
 import org.broadleafcommerce.core.catalog.domain.CategoryImpl;
@@ -17,7 +15,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "OTHER_CATEGORY")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="blStandardElements")
-@XmlRootElement
 public class OtherCategoryImpl extends CategoryImpl implements Category {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +25,6 @@ public class OtherCategoryImpl extends CategoryImpl implements Category {
 	@Column(name="TEST_PROPERTY_2")
 	private String testProperty2;
 
-	@XmlElement
 	public String getTestProperty1() {
 		return testProperty1;
 	}
@@ -37,7 +33,6 @@ public class OtherCategoryImpl extends CategoryImpl implements Category {
 		this.testProperty1 = testProperty1;
 	}
 
-	@XmlElement
 	public String getTestProperty2() {
 		return testProperty2;
 	}
