@@ -54,16 +54,18 @@ public class OtherProductWrapper extends ProductWrapper {
         super.wrap(model, request);
 
         //Extending the ProductWrapper in the REST-ful API
-        OtherProduct otherProduct = (OtherProduct) model;
-        companyNumber = otherProduct.getCompanyNumber();
-        releaseDate= otherProduct.getReleaseDate();
+        if (model instanceof OtherProduct) {
+            OtherProduct otherProduct = (OtherProduct) model;
+            companyNumber = otherProduct.getCompanyNumber();
+            releaseDate= otherProduct.getReleaseDate();
+        }
 
         //demonstrating something more complicated using the static asset service provided by the applicationContext
-        if (otherProduct.getProductMedia() != null && !otherProduct.getProductMedia().isEmpty()) {
+        if (model.getProductMedia() != null && !model.getProductMedia().isEmpty()) {
             media = new ArrayList<MediaWrapper>();
             StaticAssetService staticAssetService = (StaticAssetService) context.getBean("blStaticAssetService");
 
-            for (Media m : otherProduct.getProductMedia().values()) {
+            for (Media m : model.getProductMedia().values()) {
                 MediaWrapper wrapper = (MediaWrapper) context.getBean(MediaWrapper.class.getName());
                 wrapper.wrap(m, request);
                 media.add(wrapper);
