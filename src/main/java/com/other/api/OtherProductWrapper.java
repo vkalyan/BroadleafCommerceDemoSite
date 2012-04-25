@@ -16,6 +16,7 @@
 package com.other.api;
 
 import com.other.domain.OtherProduct;
+import org.apache.commons.lang.StringUtils;
 import org.broadleafcommerce.cms.file.service.StaticAssetService;
 import org.broadleafcommerce.core.catalog.domain.Product;
 import org.broadleafcommerce.core.media.domain.Media;
@@ -46,6 +47,9 @@ public class OtherProductWrapper extends ProductWrapper {
 	private Date releaseDate;
 
     @XmlElement
+    private String truncatedName;
+
+    @XmlElement
     @XmlElementWrapper(name = "mediaList")
     private List<MediaWrapper> media;
 
@@ -60,10 +64,12 @@ public class OtherProductWrapper extends ProductWrapper {
             releaseDate= otherProduct.getReleaseDate();
         }
 
-        //demonstrating something more complicated using the static asset service provided by the applicationContext
+        //adding a new property just for display
+        truncatedName = StringUtils.abbreviate(model.getName(), 20);
+
+        //demonstrating something more complicated by adding a list of MediaWrappers
         if (model.getProductMedia() != null && !model.getProductMedia().isEmpty()) {
             media = new ArrayList<MediaWrapper>();
-            StaticAssetService staticAssetService = (StaticAssetService) context.getBean("blStaticAssetService");
 
             for (Media m : model.getProductMedia().values()) {
                 MediaWrapper wrapper = (MediaWrapper) context.getBean(MediaWrapper.class.getName());

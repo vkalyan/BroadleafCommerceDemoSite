@@ -22,6 +22,7 @@ import org.broadleafcommerce.core.web.api.wrapper.MediaWrapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,11 +35,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(value = XmlAccessType.FIELD)
 public class OtherMediaWrapper extends MediaWrapper {
 
+    @XmlElement
+    private String baseUrl;
+
     @Override
     public void wrap(Media media, HttpServletRequest request) {
         super.wrap(media, request);
 
         //Extending the MediaWrapper in the REST-ful API
+        this.baseUrl = super.url;
+        //Here we show the ability to inject a service and override an existing property.
         StaticAssetService staticAssetService = (StaticAssetService) context.getBean("blStaticAssetService");
         super.url = staticAssetService.convertAssetPath(media.getUrl(), request.getContextPath(), request.isSecure());
     }
