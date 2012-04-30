@@ -56,8 +56,8 @@
     <properties>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>1.6.0-PAYPAL-SNAPSHOT</blc.version>
-        <blc.third.party.integration.version>1.6.0-SNAPSHOT</blc.third.party.integration.version>
+        <blc.version>1.7.0-SNAPSHOT</blc.version>
+        <blc.third.party.integration.version>1.6.0-M2-SNAPSHOT</blc.third.party.integration.version>
     </properties>
     <build>
         <pluginManagement>
@@ -336,7 +336,7 @@
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-third-party-integration-config</artifactId>
-                <version>${blc.third.party.integration.version}</version>
+                <version>1.6.0</version>
                 <scope>compile</scope>
                 <type>jar</type>
                 <optional>true</optional>
