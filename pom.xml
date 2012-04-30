@@ -50,13 +50,13 @@
         <repository>
             <id>public releases</id>
             <name>public releases</name>
-            <url>https://oss.sonatype.org/content/repositories/orgbroadleafcommerce-163/</url>
+            <url>http://www.broadleafcommerce.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
     <properties>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>1.7.0-SNAPSHOT</blc.version>
+        <blc.version>1.6.0-GA</blc.version>
         <blc.third.party.integration.version>1.6.0-SNAPSHOT</blc.third.party.integration.version>
     </properties>
     <build>
