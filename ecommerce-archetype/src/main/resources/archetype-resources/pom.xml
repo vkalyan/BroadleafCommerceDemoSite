@@ -10,8 +10,8 @@
 	<url>http://www.mycompany.com</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <blc.version>1.6.0-M2-SNAPSHOT</blc.version>
-        <blc.third.party.integration.version>1.6.0-SNAPSHOT</blc.third.party.integration.version>
+        <blc.version>1.6.0-GA</blc.version>
+        <blc.third.party.integration.version>1.6.0-GA</blc.third.party.integration.version>
 	</properties>
     <description>Top Level Project</description>
     <repositories>
