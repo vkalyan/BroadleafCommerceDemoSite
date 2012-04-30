@@ -1,0 +1,44 @@
+<script id="cart-template" type="text/html">
+
+    <form action="#" class="uniForm">
+        <fieldset class="inlineLabels">
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Order ID</h4>
+                <div class="readOnly">{{id}}</div>
+            </div>
+
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Order Items</h4>
+                {{#orderItems}}
+                {{#orderItem}}
+                <div class="readOnly">
+                    <span class="choiceLabel">ID</span>
+                    <span class="choice">{{id}}</span>
+                </div>
+                <div class="readOnly">
+                    <span class="choiceLabel">Name</span>
+                    <span class="choice">{{name}}</span>
+                </div>
+                <div class="readOnly">
+                    <span class="choiceLabel">Quantity</span>
+                    <span class="choice">{{quantity}}</span>
+                </div>
+                <br/>
+                {{/orderItem}}
+                {{/orderItems}}
+            </div>
+
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Subtotal</h4>
+                <div class="readOnly">{{subTotal.amount}} {{subTotal.currency}}</div>
+            </div>
+
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Total</h4>
+                <div class="readOnly">{{total.amount}} {{total.currency}}</div>
+            </div>
+
+        </fieldset>
+    </form>
+
+</script>

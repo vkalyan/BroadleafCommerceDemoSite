@@ -1,0 +1,61 @@
+<script id="fulfillment-template" type="text/html">
+
+    <form action="#" class="uniForm">
+        <fieldset class="inlineLabels">
+            {{#fulfillmentGroup}}
+                <div class="ctrlHolder">
+                    <h4 class="readOnlyLabel">Fulfillmeng Group ID</h4>
+                    <div class="readOnly">{{id}}</div>
+                </div>
+                <div class="ctrlHolder">
+                    <h4 class="readOnlyLabel">Order ID</h4>
+                    <div class="readOnly">{{orderId}}</div>
+                </div>
+                <div class="ctrlHolder">
+                    <h4 class="readOnlyLabel">Total</h4>
+                    <div class="readOnly">{{total.amount}} {{total.currency}}</div>
+                </div>
+                <div class="ctrlHolder">
+                    <h4 class="readOnlyLabel">Shipping Address</h4>
+                    <div class="readOnly">
+                        <span class="choiceLabel">First Name</span>
+                        <span class="choice">{{address.firstName}}</span>
+                    </div>
+                    <div class="readOnly">
+                        <span class="choiceLabel">Last Name</span>
+                        <span class="choice">{{address.lastName}}</span>
+                    </div>
+                    <div class="readOnly">
+                        <span class="choiceLabel">Address Line 1</span>
+                        <span class="choice">{{address.addressLine1}}</span>
+                    </div>
+                </div>
+                <div class="ctrlHolder">
+                    <h4 class="readOnlyLabel">Fulfillment Group Items</h4>
+                    {{#fulfillmentGroupItems}}
+                        {{#fulfillmentGroupItem}}
+                            <div class="readOnly">
+                                <span class="choiceLabel">Fulfillment Group Item ID</span>
+                                <span class="choice">{{id}}</span>
+                            </div>
+                            <div class="readOnly">
+                                <span class="choiceLabel">Retail Price</span>
+                                <span class="choice">{{retailPrice.amount}} {{retailPrice.currency}}</span>
+                            </div>
+                            <div class="readOnly">
+                                <span class="choiceLabel">Sale Price</span>
+                                <span class="choice">{{salePrice.amount}} {{salePrice.currency}}</span>
+                            </div>
+                            <div class="readOnly">
+                                <span class="choiceLabel">Quantity</span>
+                                <span class="choice">{{quantity}}</span>
+                            </div>
+                            <br/><br/>
+                        {{/fulfillmentGroupItem}}
+                    {{/fulfillmentGroupItems}}
+                </div>
+            {{/fulfillmentGroup}}
+        </fieldset>
+    </form>
+
+</script>

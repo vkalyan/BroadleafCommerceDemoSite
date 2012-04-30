@@ -1,0 +1,24 @@
+<script id="sku-template" type="text/html">
+
+    {{#sku}}
+        <form action="#" class="uniForm">
+            <fieldset class="inlineLabels">
+                <div class="ctrlHolder">
+                    <h4 class="readOnlyLabel">{{name}}</h4>
+                    <div class="readOnly">
+                        <span class="choiceLabel">Retail Price</span>
+                        <span class="choice">{{retailPrice.amount}} {{retailPrice.currency}}</span>
+                    </div>
+                    <div class="readOnly">
+                        <span class="choiceLabel">Sale Price</span>
+                        <span class="choice">{{salePrice.amount}} {{salePrice.currency}}</span>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="buttonHolder">
+                <button type="button" data-skuid='{{id}}' data-productid='{{productId}}' data-categoryid='{{categoryId}}' class="add_to_cart primaryAction">Add to Cart</button>
+            </div>
+        </form>
+    {{/sku}}
+
+</script>

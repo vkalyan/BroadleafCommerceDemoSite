@@ -1,0 +1,38 @@
+<script id="product-detail-template" type="text/html">
+
+    <h4>GET: /catalog/product/{id}/skus</h4>
+    <div class="helpMsg">
+        <h4>Path Parameter</h4>
+        <ul>
+            <li>Long: id</li>
+        </ul>
+    </div>
+    <form action="#" class="uniForm">
+
+        <fieldset class="inlineLabels">
+
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Name</h4>
+                <div class="readOnly">{{name}}</div>
+            </div>
+
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Item Number</h4>
+                <div class="readOnly">{{id}}</div>
+            </div>
+
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Company Number</h4>
+                <div class="readOnly">{{companyNumber}}</div>
+            </div>
+
+            <div class="ctrlHolder">
+                <h4 class="readOnlyLabel">Release Date</h4>
+                <div class="readOnly">{{releaseDate}}</div>
+            </div>
+
+        </fieldset>
+
+    </form>
+
+</script>
