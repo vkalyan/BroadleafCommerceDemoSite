@@ -124,7 +124,7 @@
 						</td>
 					</tr>
                     <tr>
-                        <td colspan="6" style="text-align:right"><input type="image" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="right" style="margin-right:7px" name="paypalCheckout" id="paypalCheckout">
+                        <td colspan="6" style="text-align:right"><a href="../checkout/paypalCheckout.htm"><img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="right" style="margin-right:7px" name="paypalCheckout" id="paypalCheckout"></a>
                         </td>
                     </tr>
 			</form:form>
