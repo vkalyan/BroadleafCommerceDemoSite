@@ -7,7 +7,7 @@
     <artifactId>broadleaf-demo-site</artifactId>
     <packaging>war</packaging>
     <name>BroadleafCommerce Demo Site</name>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
     <description>BroadleafCommerce Demo Site Project</description>
     <url>http://www.broadleafcommerce.org</url>
     <licenses>
@@ -57,7 +57,7 @@
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <blc.version>1.7.0-SNAPSHOT</blc.version>
-        <blc.third.party.integration.version>1.6.0-SNAPSHOT</blc.third.party.integration.version>
+        <blc.third.party.integration.version>1.7.0-SNAPSHOT</blc.third.party.integration.version>
     </properties>
     <build>
         <pluginManagement>
