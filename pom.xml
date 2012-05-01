@@ -62,8 +62,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <scm>
-        <connection>scm:git@github.com:BroadleafCommerce/BroadleafCommerceMavenArchetypes.git</connection>
-        <developerConnection>scm:git@github.com:BroadleafCommerce/BroadleafCommerceMavenArchetypes.git</developerConnection>
+        <connection>scm:git:git@github.com:BroadleafCommerce/BroadleafCommerceMavenArchetypes.git</connection>
+        <developerConnection>scm:git:git@github.com:BroadleafCommerce/BroadleafCommerceMavenArchetypes.git</developerConnection>
         <url>https://github.com/BroadleafCommerce/BroadleafCommerceMavenArchetypes</url>
     </scm>
     <build>
