@@ -106,4 +106,6 @@
         <property name="currentDateResolution" value="1000"/>
 	</bean>
 
+    <bean id="blPrecompressedArtifactFilter" class="org.broadleafcommerce.common.web.util.PrecompressedArtifactFilter"/>
+
 </beans>
