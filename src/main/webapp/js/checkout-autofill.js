@@ -9,7 +9,7 @@ function autoFillContactInfo() {
     x.elements[7].value = "Dallas";             //City
     x.elements[8].value = "TX";                 //State
     x.elements[9].value = "77777";              //Postal Code
-    x.elements[10].value = "USA";                //Country
+    x.elements[10].value = "US";                 //Country
     x.elements[11].value = "555-555-5555";       //Phone #
     x.elements[12].value = "jd@email.com";      //Email Address
 

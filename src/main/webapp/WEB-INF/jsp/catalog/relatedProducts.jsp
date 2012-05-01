@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/jsp/include.jsp"%>
-<c:if test="${!empty currentProduct.upSaleProducts && !empty currentProduct.crossSaleProducts}">
+<c:if test="${!empty currentProduct.upSaleProducts || !empty currentProduct.crossSaleProducts}">
 			<div class="relatedProducts">
 				<div class="productUpSale">
 					<c:if test="${!empty currentProduct.upSaleProducts}" >
