@@ -7,7 +7,7 @@
     <artifactId>broadleaf-demo-site</artifactId>
     <packaging>war</packaging>
     <name>BroadleafCommerce Demo Site</name>
-    <version>1.5.4-SNAPSHOT</version>
+    <version>1.6.0-GA</version>
     <description>BroadleafCommerce Demo Site Project</description>
     <url>http://www.broadleafcommerce.org</url>
     <licenses>
@@ -56,6 +56,8 @@
     <properties>
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <blc.version>1.6.0-GA</blc.version>
+        <blc.third.party.integration.version>1.6.0-GA</blc.third.party.integration.version>
     </properties>
     <build>
         <pluginManagement>
@@ -260,67 +262,35 @@
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-framework-web</artifactId>
-                <version>1.5.4-SNAPSHOT</version>
+                <version>${blc.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-usps</artifactId>
-                <version>1.5.4-SNAPSHOT</version>
-                <type>jar</type>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-profile</artifactId>
-                <classifier>sources</classifier>
-                <version>1.5.4-SNAPSHOT</version>
+                <version>${blc.third.party.integration.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-admin-module</artifactId>
-                <version>1.5.4-SNAPSHOT</version>
-                <type>jar</type>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-admin-module</artifactId>
-                <classifier>sources</classifier>
-                <version>1.5.4-SNAPSHOT</version>
+                <version>${blc.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-contentmanagement-module</artifactId>
-                <version>1.5.4-SNAPSHOT</version>
-                <type>jar</type>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-contentmanagement-module</artifactId>
-                <classifier>sources</classifier>
-                <version>1.5.4-SNAPSHOT</version>
+                <version>${blc.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>org.broadleafcommerce</groupId>
                 <artifactId>broadleaf-open-admin-platform</artifactId>
-                <version>1.5.4-SNAPSHOT</version>
-                <type>jar</type>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.broadleafcommerce</groupId>
-                <artifactId>broadleaf-open-admin-platform</artifactId>
-                <classifier>sources</classifier>
-                <version>1.5.4-SNAPSHOT</version>
+                <version>${blc.version}</version>
                 <type>jar</type>
                 <scope>compile</scope>
             </dependency>
@@ -516,6 +486,12 @@
                                             </directory>
                                             <targetPath>./</targetPath>
                                         </resource>
+                                        <resource>
+                                            <directory>
+                                                ${broadleafCoreDirectory}/common/src/main/resources
+                                            </directory>
+                                            <targetPath>./</targetPath>
+                                        </resource>
                                     </resources>
                                 </configuration>
                             </execution>
@@ -548,29 +524,7 @@
         </dependency>
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
-            <artifactId>broadleaf-profile</artifactId>
-            <classifier>sources</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>cobertura</groupId>
-                    <artifactId>cobertura</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.broadleafcommerce</groupId>
             <artifactId>broadleaf-admin-module</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>cobertura</groupId>
-                    <artifactId>cobertura</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.broadleafcommerce</groupId>
-            <artifactId>broadleaf-admin-module</artifactId>
-            <classifier>sources</classifier>
             <exclusions>
                 <exclusion>
                     <groupId>cobertura</groupId>
@@ -590,29 +544,7 @@
         </dependency>
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
-            <artifactId>broadleaf-contentmanagement-module</artifactId>
-            <classifier>sources</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>cobertura</groupId>
-                    <artifactId>cobertura</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.broadleafcommerce</groupId>
             <artifactId>broadleaf-open-admin-platform</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>cobertura</groupId>
-                    <artifactId>cobertura</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.broadleafcommerce</groupId>
-            <artifactId>broadleaf-open-admin-platform</artifactId>
-            <classifier>sources</classifier>
             <exclusions>
                 <exclusion>
                     <groupId>cobertura</groupId>

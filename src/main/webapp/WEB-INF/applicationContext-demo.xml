@@ -18,8 +18,25 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
+	<bean id="blConfiguration" class="org.broadleafcommerce.common.config.RuntimeEnvironmentPropertiesConfigurer">
+        <property name="propertyLocations">
+        	<set>
+        		<value>classpath:runtime-properties/</value>
+        	</set>
+        </property>
+        <property name="environments">
+            <set>
+                <value>production</value>
+				<value>staging</value>
+				<value>integration</value>
+				<value>development</value>
+            </set>
+        </property>
+        <property name="defaultEnvironment" value="development"/>
+    </bean>
+	
     <bean id="blPersistenceUnitManager"
-          class="org.broadleafcommerce.profile.extensibility.jpa.MergePersistenceUnitManager">
+          class="org.broadleafcommerce.common.extensibility.jpa.MergePersistenceUnitManager">
         <property name="persistenceXmlLocations">
             <list>
                 <value>classpath*:/META-INF/persistence-demo.xml</value>
@@ -58,7 +75,7 @@
 	</bean>-->
 	
 	<bean id="blCacheManager"
-          class="org.broadleafcommerce.profile.extensibility.cache.ehcache.MergeEhCacheManagerFactoryBean">
+          class="org.broadleafcommerce.common.extensibility.cache.ehcache.MergeEhCacheManagerFactoryBean">
         <property name="shared" value="true"/>
         <property name="configLocations">
             <list>

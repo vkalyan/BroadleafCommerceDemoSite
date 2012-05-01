@@ -16,12 +16,14 @@
 	
 	<context:component-scan base-package="org.broadleafcommerce.profile.web"/>
 	<context:component-scan base-package="org.broadleafcommerce.core.web"/>
+    <context:component-scan base-package="org.broadleafcommerce.openadmin.web"/>
+
 	
 	<aop:config/>
 
-	<bean id="resourceBundleExtensionPoint" class="org.broadleafcommerce.profile.core.util.ResourceBundleExtensionPoint" />
+	<bean id="resourceBundleExtensionPoint" class="org.broadleafcommerce.common.util.ResourceBundleExtensionPoint" />
 
-	<bean id="messageSource" class="org.broadleafcommerce.profile.core.util.BLResourceBundleMessageSource">
+	<bean id="messageSource" class="org.broadleafcommerce.common.util.BLResourceBundleMessageSource">
 		<constructor-arg>
 			<list>
 				<value>messages</value>
@@ -110,6 +112,7 @@
 				<prop key="/wishlist/*">blWishlistController</prop>
 				<prop key="/preview/**">previewTemplateController</prop>
                 <prop key="/catalogMultiplier/**">blCatalogMultiplyController</prop>
+                <prop key="/blcadmin/*">blAdminLoginController</prop>
 			</props>
 		</property>
 	</bean>

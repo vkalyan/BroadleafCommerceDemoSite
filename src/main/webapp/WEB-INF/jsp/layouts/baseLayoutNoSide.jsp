@@ -18,10 +18,10 @@
 		</div>
 		<c:choose>
 			<c:when test="${orderComplete}">
-				<blc:googleAnalytics webPropertyId="UA-8476611-1" order="${order}" />
+				<blc:googleAnalytics order="${order}" />
 			</c:when>
 			<c:otherwise>
-				<blc:googleAnalytics webPropertyId="UA-8476611-1" />
+				<blc:googleAnalytics />
 			</c:otherwise>
 		</c:choose>
 	</body>

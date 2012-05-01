@@ -31,6 +31,7 @@ import org.broadleafcommerce.core.catalog.service.CatalogService;
 import org.broadleafcommerce.core.offer.domain.Offer;
 import org.broadleafcommerce.core.offer.domain.OfferCode;
 import org.broadleafcommerce.core.offer.service.OfferService;
+import org.broadleafcommerce.core.offer.service.exception.OfferMaxUseExceededException;
 import org.broadleafcommerce.core.order.domain.DiscreteOrderItem;
 import org.broadleafcommerce.core.order.domain.FulfillmentGroup;
 import org.broadleafcommerce.core.order.domain.FulfillmentGroupImpl;
@@ -304,19 +305,20 @@ public class DemoCartController {
         return cartView;
     }
 
-    @RequestMapping(value = "/viewCart.htm", params="updatePromo", method = RequestMethod.POST)
-    public String updatePromoCode (@ModelAttribute(value="cartSummary") CartSummary cartSummary, ModelMap model, HttpServletRequest request) throws PricingException {
+    @RequestMapping(value = "/viewCart.htm", params="addPromo", method = RequestMethod.POST)
+    public String addPromoCode(@ModelAttribute(value = "cartSummary") CartSummary cartSummary, ModelMap model, HttpServletRequest request) throws PricingException {
         Order currentCartOrder = retrieveCartOrder(request, model);
 
         if (cartSummary.getPromoCode() != null) {
             OfferCode code = offerService.lookupOfferCodeByCode(cartSummary.getPromoCode());
 
             if (code != null ) {
-                currentCartOrder.addOfferCode(code);
-                List<Offer> offers = offerService.buildOfferListForOrder(currentCartOrder);
-                offerService.applyOffersToOrder(offers, currentCartOrder);
+                try {
+                    currentCartOrder = cartService.addOfferCode(currentCartOrder, code, true);
+                } catch (OfferMaxUseExceededException e) {
+                    model.addAttribute("error", "Promotion Max Uses Exceeded");
+                }
                 currentCartOrder = updateFulfillmentGroups(cartSummary, currentCartOrder);
-                cartSummary.setOrderDiscounts(currentCartOrder.getTotalAdjustmentsValue().getAmount());
             }
             else {
                 model.addAttribute("promoError", "Invalid promo code entered.");
@@ -328,6 +330,20 @@ public class DemoCartController {
         model.addAttribute("currentCartOrder", currentCartOrder );
         model.addAttribute("cartSummary", cartSummary);
         return cartView;
+    }
+
+    @RequestMapping(value = "/viewCart.htm", params="removePromoFromCart", method = {RequestMethod.GET,  RequestMethod.POST})
+    public String removePromoCode(@RequestParam String orderOfferCode, @ModelAttribute CartSummary cartSummary, ModelMap model, HttpServletRequest request) {
+        Order currentCartOrder = retrieveCartOrder(request, model);
+        try {
+            currentCartOrder = cartService.removeOfferCode(currentCartOrder, offerService.lookupOfferCodeByCode(orderOfferCode), true);
+        } catch (PricingException e) {
+            model.addAttribute("error", "remove");
+            LOG.error("An error occurred while removing a promo from the cart: ("+orderOfferCode+")", e);
+        }
+        cartSummary.setOrderDiscounts(currentCartOrder.getTotalAdjustmentsValue().getAmount());
+
+        return "redirect:/basket/viewCart.htm";
     }
     
     protected Order updateFulfillmentGroups (CartSummary cartSummary, Order currentCartOrder) throws PricingException {

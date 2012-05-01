@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:sec="http://www.springframework.org/schema/security"
+    xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
     	http://www.springframework.org/schema/beans
     	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    	http://www.springframework.org/schema/context
+    	http://www.springframework.org/schema/context/spring-context-3.0.xsd
     	http://www.springframework.org/schema/security
     	http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+    <context:component-scan base-package="org.broadleafcommerce.profile.web.core.security"/>
+    <context:component-scan base-package="org.broadleafcommerce.core.web.order.security"/>
 
 	<bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<sec:filter-chain-map path-type="ant">
@@ -72,7 +79,7 @@
 		class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter" />
 
 	<bean id="blRememberMeServices"
-		class="org.broadleafcommerce.core.security.EnhancedTokenBasedRememberMeServices">
+		class="org.broadleafcommerce.common.security.EnhancedTokenBasedRememberMeServices">
 		<property name="key" value="SPRING_SECURITY_REMEMBER_ME_COOKIE" />
 		<property name="userDetailsService" ref="blUserDetailsService" />
 	</bean>
@@ -109,9 +116,6 @@
 		<property name="filterProcessesUrl" value="/logout.htm" />
 	</bean>
 
-	<bean id="blCustomerStateFilter"
-		class="org.broadleafcommerce.profile.web.core.security.CustomerStateFilter" />
-
 	<bean id="blRememberMeAuthenticationProvider"
 		class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
 		<property name="key" value="SPRING_SECURITY_REMEMBER_ME_COOKIE" />
@@ -119,27 +123,27 @@
 
 	<sec:jdbc-user-service data-source-ref="webDS"
 		id="blUserDetailsService"
-		users-by-username-query="SELECT USER_NAME,PASSWORD,1 as enabled FROM BLC_CUSTOMER WHERE USER_NAME=?"
+		users-by-username-query="SELECT USER_NAME,PASSWORD,TRUE FROM BLC_CUSTOMER WHERE USER_NAME=?"
 		authorities-by-username-query="SELECT c.USER_NAME,r.ROLE_NAME from BLC_CUSTOMER c 
 	                                      JOIN BLC_CUSTOMER_ROLE cr ON c.CUSTOMER_ID = cr.CUSTOMER_ID 
 	                                      JOIN BLC_ROLE r ON cr.ROLE_ID = r.ROLE_ID 
 	                                      WHERE USER_NAME=?" />
 
 	<bean id="broadleafAuthenticationFailureHandler"
-		class="org.broadleafcommerce.core.security.BroadleafAuthenticationFailureHandler">
+		class="org.broadleafcommerce.common.security.BroadleafAuthenticationFailureHandler">
 		<constructor-arg value="/registerCustomer/registerCustomer.htm?error=true" />
 		<property name="redirectStrategy" ref="redirectStrategy" />
 	</bean>
 
 	<bean id="springAuthenticationSuccessHandler"
-		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		class="org.broadleafcommerce.core.web.order.security.BroadleafAuthenticationSuccessHandler">
 		<property name="redirectStrategy" ref="redirectStrategy" />
 		<property name="defaultTargetUrl" value="/welcome.htm" />
 		<property name="alwaysUseDefaultTargetUrl" value="true" />
 	</bean>
 
 	<bean id="redirectStrategy"
-		class="org.broadleafcommerce.profile.web.core.security.LocalRedirectStrategy">
+		class="org.broadleafcommerce.common.security.LocalRedirectStrategy">
 		<property name="enforcePortMatch" value="true" />
 	</bean>
 
@@ -194,7 +198,7 @@
 
     <bean id="blAdminLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
 		<constructor-arg>
-			<bean class="org.broadleafcommerce.core.security.BroadleafAdminLogoutSuccessHandler">
+			<bean class="org.broadleafcommerce.common.security.BroadleafAdminLogoutSuccessHandler">
 				<property name="defaultTargetUrl" value="/admin.html"/>
 			</bean>
 		</constructor-arg>
@@ -209,8 +213,8 @@
 	</bean>
 	
 	<bean id="broadleafAdminAuthenticationFailureHandler"
-		class="org.broadleafcommerce.core.security.BroadleafAuthenticationFailureHandler">
-		<constructor-arg value="/login.jsp?login_error=true" />
+		class="org.broadleafcommerce.common.security.BroadleafAuthenticationFailureHandler">
+		<constructor-arg value="/blcadmin/login?login_error=true" />
 		<property name="redirectStrategy" ref="redirectStrategy" />
 	</bean>
 
@@ -228,7 +232,7 @@
 	</bean>
 	
 	<bean id="blAdminRememberMeServices"
-		class="org.broadleafcommerce.core.security.EnhancedTokenBasedRememberMeServices">
+		class="org.broadleafcommerce.common.security.EnhancedTokenBasedRememberMeServices">
 		<property name="key" value="SPRING_SECURITY_REMEMBER_ME_COOKIE" />
 		<property name="userDetailsService" ref="userDetailsManager" />
 	</bean>
@@ -238,7 +242,7 @@
 		<property name="authenticationEntryPoint">
 			<bean
 				class="org.springframework.security.web.authentication.AuthenticationProcessingFilterEntryPoint">
-				<property name="loginFormUrl" value="/login.jsp" />
+				<property name="loginFormUrl" value="/blcadmin/login" />
 			</bean>
 		</property>
 	</bean>
@@ -278,7 +282,7 @@
 		</sec:authentication-provider>
 		<sec:authentication-provider ref="blRememberMeAuthenticationProvider" />
 	</sec:authentication-manager>
-	
+    
     <bean id="blAdminUserDetailsService" class="org.broadleafcommerce.openadmin.server.security.service.AdminUserDetailsServiceImpl"/>
 
     <alias name="blAdminUserDetailsService" alias="userDetailsManager"/>
