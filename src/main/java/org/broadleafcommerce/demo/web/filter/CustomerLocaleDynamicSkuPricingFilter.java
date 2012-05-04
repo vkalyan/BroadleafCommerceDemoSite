@@ -14,7 +14,7 @@ import org.broadleafcommerce.profile.web.core.CustomerState;
 
 public class CustomerLocaleDynamicSkuPricingFilter extends AbstractDynamicSkuPricingFilter {
 	
-	@Resource(name="customerLocaleDynamicSkuPricingService")
+	@Resource(name="blDynamicSkuPricingService")
 	DynamicSkuPricingService pricingService;
 	
 	@Resource(name="blCustomerState")
