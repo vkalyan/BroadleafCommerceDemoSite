@@ -72,6 +72,16 @@
             <param-value>blPrecompressedArtifactFilter</param-value>
         </init-param>
     </filter>
+    
+    <filter>
+        <filter-name>dynamicSkuPricingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+            <param-name>targetBeanName</param-name>
+            <param-value>customerLocaleDynamicSkuPricingFilter</param-value>
+        </init-param>
+    </filter>
+    
 
     <filter-mapping>
         <filter-name>blPrecompressedArtifactFilter</filter-name>
