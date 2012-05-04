@@ -16,5 +16,15 @@
 	<bean id="org.broadleafcommerce.core.catalog.domain.Product" class="com.other.domain.OtherProductImpl" scope="prototype" />
 	<bean id="org.broadleafcommerce.core.catalog.domain.Category" class="com.other.domain.OtherCategoryImpl" scope="prototype" />
 	<bean id="org.broadleafcommerce.core.catalog.domain.Sku" class="com.other.domain.OtherSkuImpl" scope="prototype" />
+	<!-- Have the BLC Customer take on a default English locale -->
+	<bean id="org.broadleafcommerce.profile.core.domain.Customer" class="org.broadleafcommerce.profile.core.domain.CustomerImpl" scope="prototype">
+        <property name="customerLocale">
+            <bean class="org.broadleafcommerce.common.locale.domain.LocaleImpl">
+                <property name="localeCode" value="en"/>
+                <property name="friendlyName" value="English"/>
+                <property name="defaultFlag" value="true"/>
+            </bean>
+        </property>
+    </bean>
 	   
 </beans>
