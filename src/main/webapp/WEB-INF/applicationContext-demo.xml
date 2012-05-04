@@ -105,6 +105,8 @@
     <bean id="blProductDao" class="org.broadleafcommerce.core.catalog.dao.ProductDaoImpl">
         <property name="currentDateResolution" value="1000"/>
 	</bean>
+	
+	<bean id="blDynamicSkuPricingService" class="org.broadleafcommerce.demo.catalog.service.CustomerLocaleDynamicSkuPricingService" />
 
     <bean id="blPrecompressedArtifactFilter" class="org.broadleafcommerce.common.web.util.PrecompressedArtifactFilter"/>
 
