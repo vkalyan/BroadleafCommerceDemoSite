@@ -17,7 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "OTHER_SKU")
 @Cache(usage=CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="blStandardElements")
-public class OtherSkuImpl extends SkuImpl {
+public class OtherSkuImpl extends SkuImpl implements OtherSku {
 
 	private static final long serialVersionUID = 1L;
 
