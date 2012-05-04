@@ -17,7 +17,7 @@
 	<context:component-scan base-package="org.broadleafcommerce.profile.web"/>
 	<context:component-scan base-package="org.broadleafcommerce.core.web"/>
     <context:component-scan base-package="org.broadleafcommerce.openadmin.web"/>
-
+    <context:component-scan base-package="org.broadleafcommerce.demo.web"/>
 	
 	<aop:config/>
 
@@ -84,7 +84,9 @@
 	</bean>
 
     <bean id="blCatalogMultiplyController" class="org.broadleafcommerce.core.web.catalog.CatalogMultiplierController"/>
-
+    
+    <bean id="customerLocaleController" class="org.broadleafcommerce.demo.web.controller.CustomerLocaleController" />
+    
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="order" value="1" />
 		<property name="alwaysUseFullPath" value="true" />
@@ -113,6 +115,7 @@
 				<prop key="/preview/**">previewTemplateController</prop>
                 <prop key="/catalogMultiplier/**">blCatalogMultiplyController</prop>
                 <prop key="/blcadmin/*">blAdminLoginController</prop>
+                <prop key="/updateLocale">customerLocaleController</prop>
 			</props>
 		</property>
 	</bean>
