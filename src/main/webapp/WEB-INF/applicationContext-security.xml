@@ -76,6 +76,7 @@
                 	blRequestWrapperFilter,
                 	blRememberMeAuthenticationFilter,
                 	blCustomerStateFilter,
+                	customerLocaleDynamicSkuPricingFilter,
                 	blExceptionTranslationFilter,
                 	blFilterSecurityInterceptor" />
 		</sec:filter-chain-map>
@@ -86,7 +87,10 @@
     
     <bean id="blRestCustomerStateFilter"
           class="org.broadleafcommerce.profile.web.core.security.RestApiCustomerStateFilter"/>
-
+    
+    <bean id="customerLocaleDynamicSkuPricingFilter"
+          class="org.broadleafcommerce.demo.web.filter.CustomerLocaleDynamicSkuPricingFilter" />
+    
 	<bean id="blRememberMeServices"
 		class="org.broadleafcommerce.common.security.EnhancedTokenBasedRememberMeServices">
         <constructor-arg value="SPRING_SECURITY_REMEMBER_ME_COOKIE"/>
