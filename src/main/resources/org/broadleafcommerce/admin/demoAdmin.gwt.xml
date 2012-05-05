@@ -2,7 +2,7 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
     <inherits name="com.google.gwt.precompress.Precompress"/>
-	<inherits name="org.broadleafcommerce.admin.merchandisingModule" />
+	<inherits name="org.broadleafcommerce.admin.myMerchandising" />
 	<inherits name="org.broadleafcommerce.admin.customerCareModule" />
     <inherits name="org.broadleafcommerce.openadmin.userModule" />
     <inherits name="org.broadleafcommerce.cms.admin.contentManagementModule" />
