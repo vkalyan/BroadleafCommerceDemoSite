@@ -86,6 +86,7 @@
     <bean id="blCatalogMultiplyController" class="org.broadleafcommerce.core.web.catalog.CatalogMultiplierController"/>
     
     <bean id="customerLocaleController" class="org.broadleafcommerce.demo.web.controller.CustomerLocaleController" />
+    <bean id="defaultLocaleController" class="org.broadleafcommerce.demo.web.controller.DefaultLocaleController" />
     
 	<bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="order" value="1" />
@@ -115,7 +116,8 @@
 				<prop key="/preview/**">previewTemplateController</prop>
                 <prop key="/catalogMultiplier/**">blCatalogMultiplyController</prop>
                 <prop key="/blcadmin/*">blAdminLoginController</prop>
-                <prop key="/updateLocale">customerLocaleController</prop>
+                <prop key="/updateCustomerLocale">customerLocaleController</prop>
+                <prop key="/updateDefaultLocale">defaultLocaleController</prop>
 			</props>
 		</property>
 	</bean>
