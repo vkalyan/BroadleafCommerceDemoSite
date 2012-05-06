@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.broadleafcommerce.common.locale.domain.Locale;
 import org.broadleafcommerce.common.locale.service.LocaleService;
-import org.broadleafcommerce.profile.core.domain.Customer;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
