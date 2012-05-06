@@ -107,7 +107,9 @@
 	</bean>
 	
 	<bean id="blDynamicSkuPricingService" class="org.broadleafcommerce.demo.catalog.service.CustomerLocaleDynamicSkuPricingService" />
-
+	<bean id="defaultLocaleCurrencyDeterminationService" class="org.broadleafcommerce.demo.currency.service.DefaultLocaleCurrencyDeterminationService" />
+    <bean id="demoCurrencyConversionService" class="org.broadleafcommerce.demo.currency.service.DemoCurrencyConversionService" />
+    
     <bean id="blPrecompressedArtifactFilter" class="org.broadleafcommerce.common.web.util.PrecompressedArtifactFilter"/>
 
 </beans>
