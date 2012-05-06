@@ -80,13 +80,13 @@
 					<tr class="totals topLine">
 						<td colspan="4">&nbsp;</td>
 						<td style="text-align:right">Subtotal:</td>
-						<td style="text-align:right"><span class="price">$${currentCartOrder.subTotal}</span></td>
+						<td style="text-align:right"><span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.subTotal.amount}" currencyCode="${currentCartOrder.subTotal.currency.currencyCode}" /></span></td>
 					</tr>
 					<c:if test="${(currentCartOrder.orderAdjustmentsValue != null)}">
 						<tr>
 							<td colspan="4">&nbsp;</td>
 							<td style="text-align:right">Order Discount:</td>
-							<td style="text-align:right"><span class="price" style="color:red;">($${currentCartOrder.orderAdjustmentsValue})</span></td>
+							<td style="text-align:right"><span class="price" style="color:red;">(<fmt:formatNumber type="currency" value="${currentCartOrder.orderAdjustmentsValue.amount}" currencyCode="${currentCartOrder.orderAdjustmentsValue.currency.currencyCode}" />)</span></td>
 						</tr>	   
 					</c:if>
 					<tr class="totals">
@@ -95,7 +95,7 @@
 							<input type="submit" name="addPromo" value="Add To Order" class="cartButton" />
 						</td>
 						<td style="text-align:right">Tax:</td>
-						<td style="text-align:right"><span class="price">$${currentCartOrder.totalTax}</span></td>
+						<td style="text-align:right"><span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.totalTax.amount}" currencyCode="${currentCartOrder.totalTax.currency.currencyCode}" /></span></td>
 					</tr>
 					<tr class="totals">
 						<td colspan="4" style="text-align:right;">Shipping Method:
@@ -105,19 +105,19 @@
 							<input type="hidden" name="updateShipping"  id="shippingButton"/>
 						</td>
 						<td style="text-align:right">Shipping:</td>
-						<td style="text-align:right"><span class="price">$${currentCartOrder.totalShipping}</span></td>
+						<td style="text-align:right"><span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.totalShipping.amount}" currencyCode="${currentCartOrder.totalShipping.currency.currencyCode}" /></span></td>
 					</tr>
 					<c:if test="${(currentCartOrder.fulfillmentGroupAdjustmentsValue != null)}">
 						<tr>
 							<td colspan="4">&nbsp;</td>
 							<td style="text-align:right" NOWRAP>Shipping Discount:</td>
-							<td style="text-align:right"><span class="price" style="color:red;">($${currentCartOrder.fulfillmentGroupAdjustmentsValue})</span></td>
+							<td style="text-align:right"><span class="price" style="color:red;">(<fmt:formatNumber type="currency" value="${currentCartOrder.fulfillmentGroupAdjustmentsValue.amount}" currencyCode="${currentCartOrder.fulfillmentGroupAdjustmentsValue.currency.currencyCode}" />)</span></td>
 						</tr>	   
 					</c:if>
 					<tr class="totals">
 						<td colspan="4">&nbsp;</td>
 						<td style="text-align:right">Total:</td>
-						<td style="text-align:right"><span class="price">$${currentCartOrder.total }</span></td>
+						<td style="text-align:right"><span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.total.amount}" currencyCode="${currentCartOrder.total.currency.currencyCode}" /></span></td>
 					</tr>
                     <c:if test="${(!empty currentCartOrder.addedOfferCodes)}">
                         <td colspan="5" style="text-align:right;">Promos applied:</td>

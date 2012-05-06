@@ -56,24 +56,24 @@
 		                <tr valign="top" align="right">
 		                  <td width="20">&nbsp;</td>
 		                  <td width="200">Subtotal:</td>
-		                  <td width="70"><span class="price"><c:out value="${order.subTotal}" /></span></td>
+		                  <td width="70"><span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.subTotal.amount}" currencyCode="${currentCartOrder.subTotal.currency.currencyCode}" /></span></td>
 		                </tr>
 						<tr valign="top" align="right">
 		                  <td width="20">&nbsp;</td>
 		                  <td width="200">Tax:</td>
-		                  <td width="70"><span class="price"><c:out value="${order.totalTax}" /></span></td>
+		                  <td width="70"><span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.totalTax.amount}" currencyCode="${currentCartOrder.totalTax.currency.currencyCode}" /></span></td>
 		                </tr>
 				        <tr align="right">
 				          <td width="20">&nbsp;</td>
 		                  <td width="200">Shipping:</td>
-				          <td><span class="price"><c:out value="${order.totalShipping}" /></span></td>
+				          <td><span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.totalShipping.amount}" currencyCode="${currentCartOrder.totalShipping.currency.currencyCode}" /></span></td>
 				        </tr>
 			           
        				    <tr align="right">
 		                  <td></td>
 		                  <td>Total:</td>
 		                  <td>
-		                    <span class="price"><c:out value="${order.total}" /></span>
+		                    <span class="price"><fmt:formatNumber type="currency" value="${currentCartOrder.total.amount}" currencyCode="${currentCartOrder.total.currency.currencyCode}" /></span>
 		                  </td>
 
 		                </tr>
