@@ -182,3 +182,17 @@ ul#primaryNav li a.active:hover {
 	margin-right:31%;
 	z-index:-1;
 }
+
+div.customerLocaleChange {
+	color:#FAD889;
+	left:172px;
+	position:absolute;
+	top:3px;
+}
+
+div.defaultLocaleChange {
+	color:#FAD889;
+    left:400px;
+    position:absolute;
+    top:3px;
+}

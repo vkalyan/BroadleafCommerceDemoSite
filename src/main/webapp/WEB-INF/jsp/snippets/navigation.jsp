@@ -4,13 +4,24 @@
 
 <div id="header">
 	<a href="<c:out value="${pageContext.request.contextPath}"/>"><img class="logo" src="/broadleafdemo/images/havalettaLogo.png" /></a>
-	<form id="updateCustomerLocale" action="<c:out value="${pageContext.request.contextPath}"/>/updateLocale" method="POST">
-	   <select name="localeCode" onChange="this.form.submit()" style="left:172px;position:absolute;top:3px;">
-           <option value="sv_SE" <c:if test="${customer.customerLocale.localeCode == 'sv_SE'}">selected</c:if>>Sweden</option>
-	       <option value="en_US" <c:if test="${customer.customerLocale.localeCode == 'en_US'}">selected</c:if>>United States</option>
-	       <option value="en_GB" <c:if test="${customer.customerLocale.localeCode == 'en_GB'}">selected</c:if>>United Kingdom</option>
-	   </select>
-	</form>
+	<div class="customerLocaleChange">
+		<form id="updateCustomerLocale" action="<c:out value="${pageContext.request.contextPath}"/>/updateCustomerLocale" method="POST">
+		   Customer Locale: <select name="localeCode" onChange="this.form.submit()">
+	           <option value="sv_SE" <c:if test="${customer.customerLocale.localeCode == 'sv_SE'}">selected</c:if>>Sweden</option>
+		       <option value="en_US" <c:if test="${customer.customerLocale.localeCode == 'en_US'}">selected</c:if>>United States</option>
+		       <option value="en_GB" <c:if test="${customer.customerLocale.localeCode == 'en_GB'}">selected</c:if>>United Kingdom</option>
+		   </select>
+		</form>
+	</div>
+	<div class="defaultLocaleChange">
+		<form id="updateDefaultLocale" action="<c:out value="${pageContext.request.contextPath}"/>/updateDefaultLocale" method="POST">
+           Site Locale: <select name="localeCode" onChange="this.form.submit()">
+               <option value="sv_SE" <c:if test="${defaultLocale.localeCode == 'sv_SE'}">selected</c:if>>Sweden</option>
+               <option value="en_US" <c:if test="${defaultLocale.localeCode == 'en_US'}">selected</c:if>>United States</option>
+               <option value="en_GB" <c:if test="${defaultLocale.localeCode == 'en_GB'}">selected</c:if>>United Kingdom</option>
+           </select>
+        </form>
+	</div>
 	<ul id="userNav" class="clearfix">
 		<li>
 			<c:choose>
