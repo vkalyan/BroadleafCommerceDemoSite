@@ -12,16 +12,18 @@
 -- Load Locales:  Your site must have at least one Locale with DEFAULT_FLAG set to TRUE
 -- You can have as many locales as you like.   i18n standard abbreviations should be used.
 --
-INSERT INTO BLC_LOCALE (LOCALE_CODE, DEFAULT_FLAG, FRIENDLY_NAME) VALUES ('en', TRUE, 'English');
-INSERT INTO BLC_LOCALE (LOCALE_CODE, DEFAULT_FLAG, FRIENDLY_NAME) VALUES ('es', FALSE, 'Spanish');
+INSERT INTO BLC_LOCALE (LOCALE_CODE, FRIENDLY_NAME, DEFAULT_FLAG) VALUES ('en_US', 'United States', true);
+INSERT INTO BLC_LOCALE (LOCALE_CODE, FRIENDLY_NAME, DEFAULT_FLAG) VALUES ('en_GB', 'United Kingdom', false);
+INSERT INTO BLC_LOCALE (LOCALE_CODE, FRIENDLY_NAME, DEFAULT_FLAG) VALUES ('es_MX', 'Mexico', false);
+INSERT INTO BLC_LOCALE (LOCALE_CODE, FRIENDLY_NAME, DEFAULT_FLAG) VALUES ('sv_SE', 'Sweden', false);
 
 --
 -- The following items create page templates.   The key is to map a JSP template (TMPLT_PATH) to
 -- a LOCALE_CODE.   In the example below, there is only one JSP template "basic".   The full
 -- path to the template is .../WEB_INF/jsp/templates/basic.jsp.
 --
-INSERT INTO BLC_PAGE_TMPLT (PAGE_TMPLT_ID, LOCALE_CODE, TMPLT_NAME, TMPLT_DESCR, TMPLT_PATH) VALUES (1, 'en', 'Basic Template', 'This template provides a basic layout with header and footer surrounding the content.', '/WEB-INF/jsp/templates/basic.jsp') ;
-INSERT INTO BLC_PAGE_TMPLT (PAGE_TMPLT_ID, LOCALE_CODE, TMPLT_NAME, TMPLT_DESCR, TMPLT_PATH) VALUES (2, 'es', 'Basic Spanish Template', 'This template provides a basic layout with header and footer surrounding the content.', '/WEB-INF/jsp/templates/basic.jsp') ;
+INSERT INTO BLC_PAGE_TMPLT (PAGE_TMPLT_ID, LOCALE_CODE, TMPLT_NAME, TMPLT_DESCR, TMPLT_PATH) VALUES (1, 'en_US', 'Basic Template', 'This template provides a basic layout with header and footer surrounding the content.', '/WEB-INF/jsp/templates/basic.jsp') ;
+INSERT INTO BLC_PAGE_TMPLT (PAGE_TMPLT_ID, LOCALE_CODE, TMPLT_NAME, TMPLT_DESCR, TMPLT_PATH) VALUES (2, 'es_MX', 'Basic Spanish Template', 'This template provides a basic layout with header and footer surrounding the content.', '/WEB-INF/jsp/templates/basic.jsp') ;
 
 
 --
