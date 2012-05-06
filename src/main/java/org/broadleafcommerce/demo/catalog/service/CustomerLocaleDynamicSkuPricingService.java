@@ -7,7 +7,6 @@ import java.util.Locale;
 import org.broadleafcommerce.common.money.CurrencyConsiderationContext;
 import org.broadleafcommerce.common.money.CurrencyConversionContext;
 import org.broadleafcommerce.common.money.CurrencyConversionService;
-import org.broadleafcommerce.common.money.Money;
 import org.broadleafcommerce.core.catalog.domain.Sku;
 import org.broadleafcommerce.core.catalog.service.dynamic.DynamicSkuPrices;
 import org.broadleafcommerce.core.catalog.service.dynamic.DynamicSkuPricingService;
@@ -37,7 +36,7 @@ public class CustomerLocaleDynamicSkuPricingService implements DynamicSkuPricing
 		
 		if (CurrencyConsiderationContext.getCurrencyDeterminationService() != null) {
 			String systemCurrency = CurrencyConsiderationContext.getCurrencyDeterminationService().getCurrencyCode(CurrencyConsiderationContext.getCurrencyConsiderationContext());
-			if (systemCurrency == userCurrency.getCurrencyCode()) {
+			if (systemCurrency.equals(userCurrency.getCurrencyCode())) {
 				//currencies aren't different; don't do anything
 				prices.setRetailPrice(sku.getRetailPrice());
 				prices.setSalePrice(sku.getSalePrice());
