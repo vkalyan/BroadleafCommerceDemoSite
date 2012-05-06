@@ -20,11 +20,11 @@
 									<p>Our Price: <br/>
 										<c:choose>
 											<c:when test="${item.relatedProduct.sku.salePrice != item.relatedProduct.sku.retailPrice }" >
-												<span class="strikethrough"><c:out value="${item.relatedProduct.sku.retailPrice}" /></span>
-												<c:out value="${item.relatedProduct.sku.salePrice}" />
+												<span class="strikethrough"><fmt:formatNumber type="currency" value="${item.relatedProduct.sku.retailPrice.amount}" currencySymbol="${item.relatedProduct.sku.retailPrice.currency.symbol}" /></span>
+												<fmt:formatNumber type="currency" value="${item.relatedProduct.sku.salePrice.amount}" currencySymbol="${item.relatedProduct.sku.salePrice.currency.symbol}" />
 											</c:when>			
 											<c:otherwise>
-												<c:out value="${item.relatedProduct.sku.retailPrice}" />
+												<fmt:formatNumber type="currency" value="${item.relatedProduct.sku.retailPrice.amount}" currencySymbol="${item.relatedProduct.sku.retailPrice.currency.symbol}" />
 											</c:otherwise>
 										</c:choose>
 									</p>
@@ -60,10 +60,12 @@
 									<p>Our Price: <br/>
 										<c:choose>
 											<c:when test="${item.relatedProduct.sku.salePrice != item.relatedProduct.sku.retailPrice }" >
-												<span class="strikethrough">${item.relatedProduct.sku.retailPrice}</span>
-												${item.relatedProduct.sku.salePrice}
+												<span class="strikethrough"><fmt:formatNumber type="currency" value="${item.relatedProduct.sku.retailPrice.amount}" currencySymbol="${item.relatedProduct.sku.retailPrice.currency.symbol}" /></span>
+												<fmt:formatNumber type="currency" value="${item.relatedProduct.sku.salePrice.amount}" currencySymbol="${item.relatedProduct.sku.salePrice.currency.symbol}" />
 											</c:when>			
-											<c:otherwise> ${item.relatedProduct.sku.retailPrice} </c:otherwise>
+											<c:otherwise>
+											    <fmt:formatNumber type="currency" value="${item.relatedProduct.sku.retailPrice.amount}" currencySymbol="${item.relatedProduct.sku.retailPrice.currency.symbol}" />
+											</c:otherwise>
 										</c:choose>
 									</p>
 									<p>

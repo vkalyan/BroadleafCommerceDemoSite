@@ -41,11 +41,11 @@
 					<span class="productPrice">
 						<c:choose>
 							<c:when test="${product.sku.salePrice != null && product.sku.salePrice != product.sku.retailPrice }" >
-								Sale: <span class="salePrice">$<c:out value="${product.sku.salePrice}" /></span>
-								<br/><span class="originalPrice">$<c:out value="${product.sku.retailPrice}" /></span>
+								Sale: <span class="salePrice"><fmt:formatNumber type="currency" value="${product.sku.salePrice.amount}" currencySymbol="${product.sku.salePrice.currency.symbol}" /></span>
+								<br/><span class="originalPrice"><fmt:formatNumber type="currency" value="${product.sku.retailPrice.amount}" currencySymbol="${product.sku.retailPrice.currency.symbol}" /></span>
 							</c:when>			
 							<c:otherwise>
-								<span class="salePrice">$<c:out value="${product.sku.retailPrice}" /></span>
+								<span class="salePrice"><fmt:formatNumber type="currency" value="${product.sku.retailPrice.amount}" currencySymbol="${product.sku.retailPrice.currency.symbol}" /></span>
 							</c:otherwise>
 						</c:choose>
 					</span> <br/><br/>

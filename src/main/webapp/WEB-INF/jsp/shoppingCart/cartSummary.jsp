@@ -53,11 +53,11 @@
 				    			<span class="price">
 	           						<c:choose>
 										<c:when test="${item.salePrice != null && item.salePrice.amount != item.retailPrice.amount}">
-											<span class="salePrice"><fmt:formatNumber type="currency" value="${item.salePrice.amount}" /></span>
-											<br/><span class="originalPrice">reg&nbsp;<fmt:formatNumber type="currency" value="${item.retailPrice.amount}" /></span>
+											<span class="salePrice"><fmt:formatNumber type="currency" value="${item.salePrice.amount}" currencyCode="${item.salePrice.currency.currencyCode}" /></span>
+											<br/><span class="originalPrice">reg&nbsp;<fmt:formatNumber type="currency" value="${item.retailPrice.amount}" currencyCode="${item.retailPrice.currency.currencyCode}" /></span>
 										</c:when>
 										<c:otherwise>
-											<fmt:formatNumber type="currency" value="${item.retailPrice.amount}" />
+											<fmt:formatNumber type="currency" value="${item.retailPrice.amount}" currencyCode="${item.retailPrice.currency.currencyCode}" />
 										</c:otherwise>
 									</c:choose>
 					    		</span>
@@ -65,7 +65,7 @@
 		  					<td style="text-align:right;">
 								<c:choose>
 									<c:when test="${orderItem.adjustmentValue.amount > 0}" >
-										<span class="price" style="color:red;">(<fmt:formatNumber type="currency" value="${orderItem.adjustmentValue.amount}" />)</span>
+										<span class="price" style="color:red;">(<fmt:formatNumber type="currency" value="${orderItem.adjustmentValue.amount}" currencyCode="${orderItem.adjustmentValue.currency.currencyCode}" />)</span>
 									</c:when>
 									<c:otherwise>
 										<span class="price"> -- &nbsp;&nbsp;&nbsp;</span>					
@@ -73,7 +73,7 @@
 								</c:choose>								
 					  		</td>
 					  		<td style="text-align:right;">
-					  		  <span class="price"><fmt:formatNumber type="currency" value="${orderItem.price.amount * orderItem.quantity}" /></span>
+					  		  <span class="price"><fmt:formatNumber type="currency" value="${orderItem.price.amount * orderItem.quantity}" currencyCode="${orderItem.price.currency.currencyCode}" /></span>
 					  		</td>
 			     		</tr>
 					</c:forEach>

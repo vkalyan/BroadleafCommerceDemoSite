@@ -60,11 +60,11 @@
 							<b> Our Price: </b>
 							<c:choose>
 								<c:when test="${currentProduct.sku.salePrice != currentProduct.sku.retailPrice}" >
-									<span class="strikethrough"><c:out value="${currentProduct.sku.retailPrice}" /></span>
-									<c:out value="${currentProduct.sku.salePrice}" />
+									<span class="strikethrough"><fmt:formatNumber type="currency" value="${currentProduct.sku.retailPrice.amount}" currencySymbol="${currentProduct.sku.retailPrice.currency.symbol}" /></span>
+									<fmt:formatNumber type="currency" value="${currentProduct.sku.salePrice.amount}" currencySymbol="${currentProduct.sku.salePrice.currency.symbol}" />
 								</c:when>			
 								<c:otherwise>
-									<c:out value="${currentProduct.sku.retailPrice}" />
+                                    <fmt:formatNumber type="currency" value="${currentProduct.sku.retailPrice.amount}" currencySymbol="${currentProduct.sku.retailPrice.currency.symbol}" />
 								</c:otherwise>
 							</c:choose>
 						</span>

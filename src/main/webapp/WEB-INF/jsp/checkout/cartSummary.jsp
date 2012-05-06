@@ -32,17 +32,17 @@
 			    	<span class="price">
           					<c:choose>
 							<c:when test="${true}">
-								<span class="sale"><fmt:formatNumber type="currency" value="${item.salePrice.amount}" />&nbsp;ea</span>
-								<br/>reg&nbsp;<fmt:formatNumber type="currency" value="${item.listPrice.amount}" />
+								<span class="sale"><fmt:formatNumber type="currency" value="${item.salePrice.amount}" currencyCode="${item.salePrice.currency.currencyCode}" />&nbsp;ea</span>
+								<br/>reg&nbsp;<fmt:formatNumber type="currency" value="${item.listPrice.amount}" currencyCode="${item.listPrice.currency.currencyCode}" />
 							</c:when>
 							<c:otherwise>
-								<fmt:formatNumber type="currency" value="${item.listPrice.amount}" />&nbsp;ea
+								<fmt:formatNumber type="currency" value="${item.listPrice.amount}" currencyCode="${item.listPrice.currency.currencyCode}" />&nbsp;ea
 							</c:otherwise>
 						</c:choose>
 				    </span>
 				  </td>
 				  <td align="right">
-				    <span class="price"><fmt:formatNumber type="currency" value="${orderItem.price.amount * orderItem.quantity}" /></span>
+				    <span class="price"><fmt:formatNumber type="currency" value="${orderItem.price.amount * orderItem.quantity}" currencyCode="${orderItem.price.currency.currencyCode}" /></span>
 				  </td>
 		     </tr>
 			</c:forEach>

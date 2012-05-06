@@ -52,11 +52,11 @@
 			    			<span class="price">
            						<c:choose>
 									<c:when test="${item.salePrice != null && item.salePrice.amount != item.retailPrice.amount}">
-										<span class="salePrice"><fmt:formatNumber type="currency" value="${item.salePrice.amount * orderItem.quantity}" /></span>
-										<br/><span class="originalPrice">reg&nbsp;<fmt:formatNumber type="currency" value="${item.retailPrice.amount * orderItem.quantity}" /></span>
+										<span class="salePrice"><fmt:formatNumber type="currency" value="${item.salePrice.amount * orderItem.quantity}" currencyCode="${item.salePrice.currency.currencyCode}" /></span>
+										<br/><span class="originalPrice">reg&nbsp;<fmt:formatNumber type="currency" value="${item.retailPrice.amount * orderItem.quantity}" currencyCode="${item.retailPrice.currency.currencyCode}" /></span>
 									</c:when>
 									<c:otherwise>
-										<fmt:formatNumber type="currency" value="${item.retailPrice.amount * orderItem.quantity}" />
+										<fmt:formatNumber type="currency" value="${item.retailPrice.amount * orderItem.quantity}" currencyCode="${item.retailPrice.currency.currencyCode}" />
 									</c:otherwise>
 								</c:choose>
 				    		</span>
