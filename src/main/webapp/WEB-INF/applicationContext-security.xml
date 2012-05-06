@@ -76,6 +76,7 @@
                 	blRequestWrapperFilter,
                 	blRememberMeAuthenticationFilter,
                 	blCustomerStateFilter,
+                	currencyDeterminationFilter,
                 	customerLocaleDynamicSkuPricingFilter,
                 	blExceptionTranslationFilter,
                 	blFilterSecurityInterceptor" />
@@ -90,6 +91,9 @@
     
     <bean id="customerLocaleDynamicSkuPricingFilter"
           class="org.broadleafcommerce.demo.web.filter.CustomerLocaleDynamicSkuPricingFilter" />
+
+    <bean id="currencyDeterminationFilter"
+          class="org.broadleafcommerce.demo.web.filter.CurrencyDeterminationFilter" />
     
 	<bean id="blRememberMeServices"
 		class="org.broadleafcommerce.common.security.EnhancedTokenBasedRememberMeServices">
