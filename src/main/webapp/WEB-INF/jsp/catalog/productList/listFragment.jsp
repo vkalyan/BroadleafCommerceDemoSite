@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 
 <% /* not sure how we are going to ge the grid layout to paginate. list is shown below */ %>

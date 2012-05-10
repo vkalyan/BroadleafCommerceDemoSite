@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 <script type="text/javascript" src="/src/main/webapp/js/checkout-autofill.js"></script>
 

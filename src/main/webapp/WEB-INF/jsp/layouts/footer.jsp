@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include.jsp"%>
 <div id="footer">
 <p><img src="<c:out value="${pageContext.request.contextPath}"/>/images/farmFooter.jpg" /></p>

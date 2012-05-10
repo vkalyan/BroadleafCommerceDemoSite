@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 	<h3 style="margin-bottom:10px;">Your Shopping Cart (<c:out value="${fn:length(order.orderItems)}" /> item(s))</h3>
 	<table>

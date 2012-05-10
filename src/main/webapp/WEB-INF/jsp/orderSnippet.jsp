@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 	<div class="orderBorder columns span-9">
 		<div class="orderTitle" > <b>Order Summary </b></div>

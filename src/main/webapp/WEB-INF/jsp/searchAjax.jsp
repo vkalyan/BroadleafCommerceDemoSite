@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 <h2 style="color: rgb(86, 111, 50);">
 	Search Results

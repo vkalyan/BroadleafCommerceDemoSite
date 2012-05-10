@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 <c:forEach var="childCategory" items="${currentCategory.childCategories}" varStatus="status">
         <%--getting all the category products as a test is not performant --%>
