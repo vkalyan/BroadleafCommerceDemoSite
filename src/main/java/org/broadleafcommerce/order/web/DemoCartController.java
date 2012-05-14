@@ -188,7 +188,7 @@ public class DemoCartController {
         if (addToCartItem.getQuantity() > 0) {
             try {
                 OrderItem orderItem;
-                if (addToCartItem.getSkuId() == 180) {
+/*                if (addToCartItem.getSkuId() == 180) {
                 	BundleOrderItemRequest itemRequest = new BundleOrderItemRequest();
                 	DiscreteOrderItemRequest discreteRequest1 = cartService.createDiscreteOrderItemRequest(addToCartItem.getSkuId(), addToCartItem.getProductId(), addToCartItem.getCategoryId(), addToCartItem.getQuantity());
                 	DiscreteOrderItemRequest discreteRequest2 = cartService.createDiscreteOrderItemRequest(11L, null, null, addToCartItem.getQuantity());
@@ -201,14 +201,14 @@ public class DemoCartController {
                 	} else {
                 		orderItem = cartService.addBundleItemToOrder(currentCartOrder, itemRequest);
                 	} 	
-                } else {
+                } else {    */
                 	if (addToCartItem.getOrderId() != null) {
                         orderItem = cartService.addSkuToOrder(addToCartItem.getOrderId(), addToCartItem.getSkuId(), addToCartItem.getProductId(), addToCartItem.getCategoryId(), addToCartItem.getQuantity());
                     }
                     else {
                         orderItem = cartService.addSkuToOrder(currentCartOrder.getId(), addToCartItem.getSkuId(), addToCartItem.getProductId(), addToCartItem.getCategoryId(), addToCartItem.getQuantity());
                     }
-                }
+              //  }
                 orderItemsAdded.add(orderItem);
             } catch (PricingException e) {
                 LOG.error("Unable to price the order: ("+currentCartOrder.getId()+")", e);
