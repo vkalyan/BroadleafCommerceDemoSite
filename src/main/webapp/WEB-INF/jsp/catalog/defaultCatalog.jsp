@@ -24,7 +24,7 @@
       	Narrow results by:
 				<blc:searchFilterItem property="manufacturer" displayTitle="Manufacturers"/>
 				<br />
-				<blc:searchFilterItem property="sku.salePrice" displayTitle="Prices" displayType="sliderRange"/>
+				<blc:searchFilterItem property="defaultSku.salePrice" displayTitle="Prices" displayType="sliderRange"/>
 			</blc:searchFilter>
 
 			<blc:displayFeaturedProducts products="${displayProducts}" var="featuredProducts" maxFeatures="3">

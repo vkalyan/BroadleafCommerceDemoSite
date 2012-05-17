@@ -24,7 +24,7 @@
 					<form:errors path="*" cssClass="errorText"/>
 					<c:forEach items="${currentCartOrder.orderItems}" var="orderItem" varStatus="status">		
 				    	<c:set var="item" value="${orderItem.sku}"/>
-						<c:set var="product" value="${item.allParentProducts[0]}"/>
+                        <c:set var="product" value="${item.allParentProducts[0]}"/>
 						<c:url var="itemUrl" value="/${product.defaultCategory.generatedUrl}">
 							<c:param name="productId" value="${product.id}"/>
 						</c:url>
