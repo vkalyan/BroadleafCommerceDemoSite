@@ -4,9 +4,4 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-    <!-- The following beans are for API Wrappers.  They must be prototype scoped..  Override for extensibility.  Unlike the other Broadleaf classes that are keyed by their interface name,
-               these are keyed by their base implementation name. JAXB doesn't like interfaces too much, so we use a base wrapper class that can be extended and overwritten here. -->
-    <bean id="org.broadleafcommerce.core.web.api.wrapper.ProductWrapper" class="com.other.api.OtherProductWrapper" scope="prototype"/>
-    <bean id="org.broadleafcommerce.core.web.api.wrapper.MediaWrapper" class="com.other.api.OtherMediaWrapper" scope="prototype"/>
-
 </beans>

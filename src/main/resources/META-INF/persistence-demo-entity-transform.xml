@@ -16,17 +16,14 @@
     <persistence-unit name="blPU" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<non-jta-data-source>jdbc/web</non-jta-data-source>
-		<class>com.other.domain.OtherProductImpl</class>
 		<exclude-unlisted-classes/>
 		<properties>
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.show_sql" value="true"/>
             <property name="broadleaf.ejb.entities.override_single_table" value="
             	org.broadleafcommerce.core.catalog.domain.ProductImpl
-            	org.broadleafcommerce.core.catalog.domain.ProductSkuImpl
-            	com.other.domain.OtherProductImpl
-            	"/>
+            	org.broadleafcommerce.core.catalog.domain.ProductSkuImpl"/>
             <property name="broadleaf.ejb.ProductImpl.discriminator.name" value="DISC"/>
             <property name="broadleaf.ejb.ProductImpl.discriminator.type" value="STRING"/>
             <property name="broadleaf.ejb.ProductImpl.discriminator.length" value="255"/>
@@ -40,7 +37,7 @@
 		<properties>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.show_sql" value="true"/>
         </properties>
 	</persistence-unit>
 </persistence>
