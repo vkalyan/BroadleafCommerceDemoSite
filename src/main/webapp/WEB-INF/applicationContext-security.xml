@@ -29,6 +29,7 @@
 			<sec:filter-chain pattern="/images/**" filters="none" />
 			<sec:filter-chain pattern="/js/**" filters="none" />
             <sec:filter-chain pattern="/utility.service" filters="none" />
+            <sec:filter-chain pattern="/org.broadleafcommerce.admin.demoAdmin/remote_logging/remote_logging" filters="none" />
             <sec:filter-chain pattern="/api/**" 
                 filters="blRequestWrapperFilter,
                     blRestCustomerStateFilter"/>
