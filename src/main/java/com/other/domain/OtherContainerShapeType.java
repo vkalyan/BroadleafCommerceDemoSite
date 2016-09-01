@@ -33,6 +33,8 @@ public class OtherContainerShapeType extends ContainerShapeType {
 
     public OtherContainerShapeType() {
         //do nothing
+    	// another comment
+    	System.out.println("testing");
     }
 
     public OtherContainerShapeType(final String type, final String friendlyType) {
